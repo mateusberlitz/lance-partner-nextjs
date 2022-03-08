@@ -37,6 +37,7 @@
     "@types/react": "17.0.39",
     "@types/react-color": "^3.0.6",
     "@types/react-csv": "^1.1.2",
+    "@types/react-input-mask": "^3.0.1",
     "@types/react-select": "^5.0.1",
     "@types/vanilla-masker": "^1.2.1",
     "eslint": "8.10.0",
