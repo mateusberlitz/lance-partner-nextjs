@@ -299,7 +299,7 @@ export default function Home({quotas, broker}: ContempladasProps){
                                                             <Td p="2px" {...border}>
                                                                 {
                                                                     isWideVersion ? 
-                                                                    <OutlineButton onClick={() => handleContact(quota)} p={isWideVersion ? "" : "2"} size="sm" borderColor="gray.400" _hover={{borderColor: 'green.400'}}>
+                                                                    <OutlineButton p={"4"} onClick={() => handleContact(quota)}  size="sm" borderColor="gray.400" _hover={{borderColor: 'green.400'}}>
                                                                         Contatar
                                                                     </OutlineButton>
                                                                     : 
