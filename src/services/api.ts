@@ -21,4 +21,4 @@ export const api = axios.create({
     baseURL: '/api'
 });
 
-export const storageApi = "http://lance-partner-backend.herokuapp.com/public/api/";
+export const storageApi = process.env.NODE_ENV === 'production' ? process.env.PARTNER_PUBLIC_STORAGE : process.env.PARTNER_PUBLIC_LOCAL_STORAGE;
