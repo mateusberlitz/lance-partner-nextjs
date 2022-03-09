@@ -2,7 +2,7 @@ import axios from 'axios'
 import { parseCookies } from 'nookies';
 
 const cookies = parseCookies();
-
+console.log(process.env.NODE_ENV);
 export const serverApi = axios.create({
     baseURL: process.env.NODE_ENV === 'production' ? process.env.PARTNER_PUBLIC_API : process.env.PARTNER_PUBLIC_LOCAL_API,
 });
