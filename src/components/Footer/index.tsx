@@ -6,6 +6,7 @@ import { FooterLink } from "./FooterLink";
 
 import Whatsapp from '../../../public/icons/whatsapp.svg';
 import { Broker } from "../../pages/[slug]";
+import { storageApi } from "../../services/api";
 
 interface FooterProps{
     broker: Broker;
@@ -21,7 +22,7 @@ export function Footer({broker} : FooterProps){
         <Flex flexDir="column" w="100%" bg="gray.900" color="white" px="6">
             <Stack direction={["column", "column", "row"]} spacing={["16", "14", "12"]} bg="gray.900" w="100%" maxW="1200px" m="0 auto" py="20" justifyContent="space-between">
                 <Stack direction={["row", "row", "column"]} spacing="16">
-                    <Img w="100%" maxW={[ "120px", "130px", "200px" ]} src={`${process.env.PARTNER_PUBLIC_STORAGE}${broker.logo}`} filter="brightness(999)" alt="Lance Consórcio - O plano para conquistar seus sonhos" flexWrap="wrap"/>
+                    <Img w="100%" maxW={[ "120px", "130px", "200px" ]} src={`${storageApi}${broker.logo}`} filter="brightness(999)" alt="Lance Consórcio - O plano para conquistar seus sonhos" flexWrap="wrap"/>
                 
                     {/* <Stack spacing="6">
                         <Text>Conteúdos e novidades</Text>

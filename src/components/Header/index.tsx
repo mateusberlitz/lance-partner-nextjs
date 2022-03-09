@@ -6,6 +6,7 @@ import HeaderLinkList from "./HeaderLinkList";
 import { useBreakpointValue } from "@chakra-ui/media-query";
 import { Menu } from "react-feather";
 import { Broker } from "../../pages/[slug]";
+import { storageApi } from "../../services/api";
 
 interface HeaderProps{
     broker: Broker;
@@ -26,7 +27,7 @@ export function Header({broker}: HeaderProps){
             <HStack w="100%" m="0 auto" maxW="1200px" py="0" justify="space-between" fontWeight="normal" color="white">
                 <Link href="/">
                     <a href="">
-                        <Img w="100%" maxW={["100px", "100px", "100px" ]} src={`${process.env.PARTNER_PUBLIC_STORAGE}${broker.logo}`} alt="Lance Consórcio - O plano para conquistar seus sonhos" flexWrap="wrap"/>
+                        <Img w="100%" maxW={["100px", "100px", "100px" ]} src={`${storageApi}${broker.logo}`} alt="Lance Consórcio - O plano para conquistar seus sonhos" flexWrap="wrap"/>
                     </a>
                 </Link>
 

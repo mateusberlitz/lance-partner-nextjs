@@ -12,7 +12,7 @@ import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { SolidButton } from "../../components/Buttons/SolidButton";
 import { useEffect, useRef, useState } from "react";
-import { serverApi } from "../../services/api";
+import { serverApi, storageApi } from "../../services/api";
 import { showErrors } from "../../contexts/useErrors";
 import { ColorPicker } from "../../components/Forms/ColorPicker";
 
@@ -123,7 +123,7 @@ export default function AdminPage(){
 
     useEffect(() => {
         if(profile){
-            setProfileImage(`${process.env.PARTNER_PUBLIC_STORAGE}${profile.logo}`);
+            setProfileImage(`${storageApi}${profile.logo}`);
             setColor(profile.color);
             setSecondColor(profile.second_color);
         }
