@@ -1,13 +1,10 @@
-import { Box, Button, Drawer, DrawerBody, DrawerCloseButton, DrawerContent, DrawerHeader, DrawerOverlay, Flex, HStack, Icon, Img, Stack, Text, useDisclosure } from "@chakra-ui/react";
+import { Box, Button, Drawer, DrawerBody, DrawerCloseButton, DrawerContent, DrawerHeader, DrawerOverlay, Flex, HStack, Icon, Img, Stack, Text, useBreakpointValue, useDisclosure } from "@chakra-ui/react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { HeaderLink } from "./HeaderLink";
 import HeaderLinkList from "./HeaderLinkList";
-import { useBreakpointValue } from "@chakra-ui/media-query";
 import { Menu } from "react-feather";
 import { Broker } from "../../pages/[slug]";
-import { storageApi } from "../../services/api";
-import { profile } from "console";
 
 interface HeaderProps{
     broker: Broker;
@@ -31,7 +28,7 @@ export function Header({broker}: HeaderProps){
                         {
                             //broker.logo && <Img w="100%" maxW={["100px", "100px", "100px" ]} src={`${storageApi}${broker.logo}`} alt="Lance Consórcio - O plano para conquistar seus sonhos" flexWrap="wrap"/>
                         }
-                        <Text fontSize={["lg","xl"]}>{broker.name_display ? broker.name_display : broker.name}</Text>
+                        <Text fontSize={["lg", "xl"]}>{broker.name_display ? broker.name_display : broker.name}</Text>
                     </a>
                 </Link>
 
