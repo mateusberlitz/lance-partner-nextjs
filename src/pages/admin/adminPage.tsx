@@ -157,7 +157,7 @@ export default function AdminPage(){
 
                         <Stack alignItems="center" spacing="6">
                             <Flex onClick={() => handleChangeLogo()} borderRadius="3" bg="gray.500" maxW={["200px", "200px", "300px" ]} p="6" border="1px dashed" borderColor="gray.600" cursor="pointer" _hover={{border: '1px solid', borderColor: 'gray.800'}}>
-                                <Img w="100%" src={profileImage} alt="Lance Consórcio - O plano para conquistar seus sonhos" flexWrap="wrap"/>
+                                <Img w="100%" src={profile.logo ? profileImage : '/noimage.png'} alt="Lance Consórcio - O plano para conquistar seus sonhos" flexWrap="wrap"/>
                             </Flex>
 
                             <Input ref={editLogoRef} name="image" type="file" accept="image/png, image/jpeg" display="none" onChange={handleChangeFile}/> 

@@ -14,6 +14,7 @@ import { CSVLink, } from "react-csv";
 
 import Whatsapp from '../../public/icons/whatsapp.svg';
 import NotFound from '../components/NotFound'
+import { serverApi } from '../services/api'
 
 export interface Broker{
   name: string;
@@ -379,7 +380,7 @@ export const getServerSideProps: GetServerSideProps = async ({req, params }) => 
     const { slug } = params;
 
     try{
-      const responseBroker = await axios.get(`${process.env.PARTNER_PUBLIC_API}brokers/${slug}`);
+      const responseBroker = await serverApi.get(`brokers/${slug}`);
 
       if(responseBroker.data.error){
         throw Error;

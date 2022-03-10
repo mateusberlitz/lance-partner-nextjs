@@ -7,6 +7,7 @@ import { useBreakpointValue } from "@chakra-ui/media-query";
 import { Menu } from "react-feather";
 import { Broker } from "../../pages/[slug]";
 import { storageApi } from "../../services/api";
+import { profile } from "console";
 
 interface HeaderProps{
     broker: Broker;
@@ -20,14 +21,16 @@ export function Header({broker}: HeaderProps){
         lg: true,
     })
 
-    console.log(isWideVersion);
+    console.log(broker.logo);
 
     return (
         <Flex w="100vw" px="6" bg="rgba(0,0,0,0.4);" backdropFilter="blur(20px)" pos="fixed" top="0" zIndex="99" h="68px">
             <HStack w="100%" m="0 auto" maxW="1200px" py="0" justify="space-between" fontWeight="normal" color="white">
                 <Link href="/">
                     <a href="">
-                        <Img w="100%" maxW={["100px", "100px", "100px" ]} src={`${storageApi}${broker.logo}`} alt="Lance Consórcio - O plano para conquistar seus sonhos" flexWrap="wrap"/>
+                        {
+                            broker.logo && <Img w="100%" maxW={["100px", "100px", "100px" ]} src={`${storageApi}${broker.logo}`} alt="Lance Consórcio - O plano para conquistar seus sonhos" flexWrap="wrap"/>
+                        }
                     </a>
                 </Link>
 
