@@ -22,9 +22,11 @@ export function Footer({broker} : FooterProps){
         <Flex flexDir="column" w="100%" bg="gray.900" color="white" px="6">
             <Stack direction={["column", "column", "row"]} spacing={["16", "14", "12"]} bg="gray.900" w="100%" maxW="1200px" m="0 auto" py="20" justifyContent="space-between">
                 <Stack direction={["row", "row", "column"]} spacing="16">
-                    {
-                        broker.logo && <Img w="100%" maxW={[ "120px", "130px", "200px" ]} src={`${storageApi}${broker.logo}`} filter="brightness(999)" alt="Lance Consórcio - O plano para conquistar seus sonhos" flexWrap="wrap"/>
-                    }
+                    <Flex borderRadius="full" bg="gray.500" w="150px" h="150px" alignItems="center" justifyContent="center" overflow="hidden">
+                        {
+                            broker.logo && <Img w="100%" maxW={[ "120px", "130px", "200px" ]} src={`${storageApi}${broker.logo}`} alt="Lance Consórcio - O plano para conquistar seus sonhos" flexWrap="wrap"/>
+                        }
+                    </Flex>
                 
                     {/* <Stack spacing="6">
                         <Text>Conteúdos e novidades</Text>
