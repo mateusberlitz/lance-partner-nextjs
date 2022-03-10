@@ -1,7 +1,7 @@
 import type { GetServerSideProps, NextPage } from 'next'
 import Head from 'next/head'
 import axios from 'axios'
-import { Box, ChakraProvider, Divider, Checkbox, extendTheme, Flex, Heading, HStack, IconButton, Stack, Table, Tbody, Td, Text, Th, Thead, Tr, useBreakpointValue, useToast } from '@chakra-ui/react'
+import { Box, ChakraProvider, Divider, Checkbox, extendTheme, Flex, Heading, HStack, IconButton, Stack, Table, Tbody, Td, Text, Th, Thead, Tr, useBreakpointValue, useToast, Img } from '@chakra-ui/react'
 import { Header } from '../components/Header'
 import { OutlineButton } from '../components/Buttons/OutlineButton'
 import { Footer } from '../components/Footer'
@@ -14,7 +14,7 @@ import { CSVLink, } from "react-csv";
 
 import Whatsapp from '../../public/icons/whatsapp.svg';
 import NotFound from '../components/NotFound'
-import { serverApi } from '../services/api'
+import { serverApi, storageApi } from '../services/api'
 
 export interface Broker{
   name: string;
@@ -82,6 +82,7 @@ export default function Home({quotas, broker}: ContempladasProps){
 
       if(event.target?.checked){
           setSelectedQuotasId([...selectedQuotasId, ...realtyQuotasId]);
+          setSelectedQuotas([...selectedQuotas, ...realtyQuotas]);
       }else{
           const selectedQuotasWithoutRealty = selectedQuotasId.map((quotaId) => {
               if(!realtyQuotasId.includes(quotaId)){ return quotaId;}
@@ -90,6 +91,7 @@ export default function Home({quotas, broker}: ContempladasProps){
           })
 
           setSelectedQuotasId(selectedQuotasWithoutRealty);
+          setSelectedQuotas(selectedQuotas.filter((quota:Quota) => quota.categoria !== "Imóvel"));
       }
   }
 
@@ -99,6 +101,7 @@ export default function Home({quotas, broker}: ContempladasProps){
 
       if(event.target?.checked){
           setSelectedQuotasId([...selectedQuotasId, ...vehicleQuotasId]);
+          setSelectedQuotas([...selectedQuotas, ...vehicleQuotas]);
       }else{
           const selectedQuotasWithoutVehicle = selectedQuotasId.map((quotaId) => {
               if(!vehicleQuotasId.includes(quotaId)){ return quotaId;}
@@ -107,6 +110,8 @@ export default function Home({quotas, broker}: ContempladasProps){
           })
 
           setSelectedQuotasId(selectedQuotasWithoutVehicle);
+          setSelectedQuotas(selectedQuotas.filter((quota:Quota) => quota.categoria !== "Veículo"));
+
       }
   }
 
@@ -227,7 +232,12 @@ export default function Home({quotas, broker}: ContempladasProps){
                                 <Stack spacing="5" px={["6", "2"]}>
                                     <Stack flexDirection={['column', 'row']} justifyContent="space-between" alignItems="baseline">
                                         <Heading fontSize={["4xl","6xl"]}>Cotas Contempladas</Heading>
-                                        <Text fontSize="2xl">{broker.name_display ? broker.name_display : broker.name}</Text>
+                                        <Flex borderRadius="full" bg="gray.500" w="200px" h="200px" alignItems="center" justifyContent="center">
+                                            {
+                                                broker.logo && <Img maxW="100%" src={`${storageApi}${broker.logo}`} alt="Lance Consórcio - O plano para conquistar seus sonhos" flexWrap="wrap"/>
+                                            }
+                                        </Flex>
+                                        {/* <Text fontSize="2xl">{broker.name_display ? broker.name_display : broker.name}</Text> */}
                                     </Stack>
 
                                     <Divider w="100px" border="1px" borderColor="first" />

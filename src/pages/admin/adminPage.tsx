@@ -123,7 +123,7 @@ export default function AdminPage(){
 
     useEffect(() => {
         if(profile){
-            setProfileImage(`${storageApi}${profile.logo}`);
+            setProfileImage(profile.logo && `${storageApi}${profile.logo}`);
             setColor(profile.color);
             setSecondColor(profile.second_color);
         }
@@ -158,7 +158,7 @@ export default function AdminPage(){
                         <Stack alignItems="center" spacing="6">
                             <Flex onClick={() => handleChangeLogo()} borderRadius="3" bg="gray.500" maxW={["200px", "200px", "300px" ]} p="6" border="1px dashed" borderColor="gray.600" cursor="pointer" _hover={{border: '1px solid', borderColor: 'gray.800'}}>
                                 {
-                                    profile.logo ? <Img w="100%" src={profileImage} alt="Lance Consórcio - O plano para conquistar seus sonhos" flexWrap="wrap"/>
+                                    profileImage ? <Img w="100%" src={profileImage} alt="Lance Consórcio - O plano para conquistar seus sonhos" flexWrap="wrap"/>
                                     : <Text>Insira sua logo</Text>
                                 }
                             </Flex>
