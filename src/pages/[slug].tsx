@@ -7,7 +7,7 @@ import { OutlineButton } from '../components/Buttons/OutlineButton'
 import { Footer } from '../components/Footer'
 import { SolidButton } from '../components/Buttons/SolidButton'
 import ReactToPrint from 'react-to-print'
-import { ChangeEvent, useRef, useState } from 'react'
+import { ChangeEvent, useEffect, useRef, useState } from 'react'
 import Sum from '../components/Sum'
 import { Check, X } from 'react-feather'
 import { CSVLink, } from "react-csv";
@@ -211,7 +211,7 @@ export default function Home({quotas, broker}: ContempladasProps){
         },
     })
 
-    console.log(isWideVersion);
+    console.log(fontSize);
 
   return broker ? (
             <div>
@@ -228,9 +228,9 @@ export default function Home({quotas, broker}: ContempladasProps){
                         <Sum broker={broker} isOpen={isSumOpen} handleCloseSumModal={handleCloseSumModal} selectedQuotas={selectedQuotas}/>
 
                         <Flex flexDir="column" w="100%">
-                            <Stack flexDir="column" w="100%" maxW="1200px" m="0 auto" py="36" spacing="20" justifyContent="space-between">
+                            <Stack flexDir="column" w="100%" maxW="1200px" m="0 auto" py="28" spacing="20" justifyContent="space-between">
                                 <Stack spacing="5" px={["6", "2"]}>
-                                    <Stack flexDirection={['column', 'row']} justifyContent="space-between" alignItems="center">
+                                    <Stack flexDirection={['column', 'row']} spacing="4" justifyContent="space-between" alignItems="center">
                                         <Heading fontSize={["4xl","6xl"]}>Cotas Contempladas</Heading>
                                         <Flex borderRadius="full" bg="gray.500" w="200px" h="200px" alignItems="center" justifyContent="center" overflow="hidden">
                                             {
@@ -245,6 +245,7 @@ export default function Home({quotas, broker}: ContempladasProps){
                                     <Text>Encontre e some as melhores ofertas para você!</Text>
                                 </Stack>
 
+{ fontSize && (
                                 <Stack spacing="0" borderRadius="4px" overflow="hidden" px="2">
                                     <HStack justifyContent="space-between" bg="gray.300" p="4">
                                         <HStack spacing="4">
@@ -366,6 +367,7 @@ export default function Home({quotas, broker}: ContempladasProps){
                                         </HStack>
                                     </Box>
                                 </Stack>
+)}
                             </Stack>
                         </Flex>
 

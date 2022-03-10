@@ -31,7 +31,7 @@ export function Header({broker}: HeaderProps){
                         {
                             //broker.logo && <Img w="100%" maxW={["100px", "100px", "100px" ]} src={`${storageApi}${broker.logo}`} alt="Lance Consórcio - O plano para conquistar seus sonhos" flexWrap="wrap"/>
                         }
-                        <Text fontSize="2xl">{broker.name_display ? broker.name_display : broker.name}</Text>
+                        <Text fontSize={["lg","xl"]}>{broker.name_display ? broker.name_display : broker.name}</Text>
                     </a>
                 </Link>
 

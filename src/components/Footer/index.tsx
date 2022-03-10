@@ -24,7 +24,7 @@ export function Footer({broker} : FooterProps){
                 <Stack direction={["row", "row", "column"]} spacing="16">
                     <Flex borderRadius="full" bg="gray.500" w="150px" h="150px" alignItems="center" justifyContent="center" overflow="hidden">
                         {
-                            broker.logo && <Img w="100%" maxW={[ "120px", "130px", "200px" ]} src={`${storageApi}${broker.logo}`} alt="Lance Consórcio - O plano para conquistar seus sonhos" flexWrap="wrap"/>
+                            broker.logo && <Img maxW="100%" src={`${storageApi}${broker.logo}`} alt="Lance Consórcio - O plano para conquistar seus sonhos" flexWrap="wrap"/>
                         }
                     </Flex>
                 
