@@ -309,12 +309,14 @@ export default function Home({quotas, broker}: ContempladasProps){
                                                             <Td p="2px" {...border}>{quota.administradora}</Td>
                                                             <Td p="2px" {...border}>
                                                                 {
-                                                                    isWideVersion ? 
-                                                                    <OutlineButton p="4" onClick={() => handleContact(quota)}  size="sm" borderColor="gray.400" _hover={{borderColor: 'green.400'}}>
+                                                                    isWideVersion === true &&
+                                                                    <OutlineButton p="4" color="gray.800" onClick={() => handleContact(quota)}  size="sm" borderColor="gray.400" _hover={{borderColor: 'green.400'}}>
                                                                         Contatar
                                                                     </OutlineButton>
-                                                                    : 
-                                                                    <IconButton onClick={() => handleContact(quota)} size="sm" minW="26px" h="26px" p="0" color="#48bb78" colorScheme='green' bg="transparent" border="1px solid" borderColor="gray.400" _hover={{borderColor: 'green.400'}} aria-label='Chamar no whatsapp' icon={<Whatsapp width="10px" stroke="#48bb78"/>}/>
+                                                                }
+                                                                {
+                                                                    isWideVersion === false && 
+                                                                    <IconButton onClick={() => handleContact(quota)} size="sm" minW="26px" h="26px" p="0" colorScheme='green' bg="transparent" border="1px solid" borderColor="gray.400" _hover={{borderColor: 'green.400'}} aria-label='Chamar no whatsapp' icon={<Whatsapp width="10px" stroke="#48bb78"/>}/>
                                                                 }
                                                             </Td>
                                                             <Td p="2px" {...border}>
