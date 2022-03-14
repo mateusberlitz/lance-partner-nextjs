@@ -18,8 +18,6 @@ export function Header({broker}: HeaderProps){
         lg: true,
     })
 
-    console.log(broker.logo);
-
     return (
         <Flex w="100vw" px="6" bg="rgba(0,0,0,0.4);" backdropFilter="blur(20px)" pos="fixed" top="0" zIndex="99" h="68px">
             <HStack w="100%" m="0 auto" maxW="1200px" py="0" justify="space-between" fontWeight="normal" color="white">

@@ -236,7 +236,7 @@ export default function Home({quotas, broker}: ContempladasProps){
                                 <Stack spacing="5" px={["6", "2"]}>
                                     <Stack flexDirection={['column', 'row']} spacing="4" justifyContent="space-between" alignItems="center">
                                         <Heading fontSize={["4xl","6xl"]}>Cotas Contempladas</Heading>
-                                        <Flex borderRadius="full" bg="gray.500" w="200px" h="200px" alignItems="center" justifyContent="center" overflow="hidden">
+                                        <Flex bg="" w="200px" h="200px" alignItems="center" justifyContent="center" overflow="hidden">
                                             {
                                                 broker.logo && <Img maxW="100%" src={`${storageApi}${broker.logo}`} alt={`${broker.name_display ? broker.name_display : broker.name} - Créditos para conquistar seus sonhos`} flexWrap="wrap"/>
                                             }
