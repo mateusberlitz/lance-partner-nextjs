@@ -79,7 +79,7 @@ export function Footer({broker} : FooterProps){
 
             </Stack>
 
-            <Stack direction={["column", "row", "row"]} spacing="8" w="100%" maxW="1200px" m="0 auto" py="8" justifyContent="space-between" borderTop="1px solid #222" color="gray.300">
+            <Stack direction={["column", "row", "row"]} spacing="8" w="100%" maxW="1200px" m="0 auto" py="8" justifyContent="space-between" borderTop="1px solid #222" color="gray.300" pb="90px">
                 <Stack>
                     <HStack>
                         <MapPin width="14px"/>
