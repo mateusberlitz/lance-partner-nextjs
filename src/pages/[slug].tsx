@@ -17,6 +17,7 @@ import NotFound from '../components/NotFound'
 import { serverApi, storageApi } from '../services/api'
 
 export interface Broker{
+  slug: string;
   name: string;
   name_display: string;
   email: string;
