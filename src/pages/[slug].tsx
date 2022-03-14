@@ -243,7 +243,7 @@ export default function Home({quotas, broker}: ContempladasProps){
                                         {/* <Text fontSize="2xl">{broker.name_display ? broker.name_display : broker.name}</Text> */}
                                     </Stack>
 
-                                    <Divider w="100px" border="1px" borderColor="first" />
+                                    <Box w="100px" h="2px" bg="first" />
 
                                     <Text>Encontre e some as melhores ofertas para você!</Text>
                                 </Stack>
@@ -393,30 +393,55 @@ export default function Home({quotas, broker}: ContempladasProps){
 export const getServerSideProps: GetServerSideProps = async ({req, params }) => {
     let broker = null;
 
-  if(params){
-    const { slug } = params;
+    if(params){
+        const { slug } = params;
 
-    try{
-      const responseBroker = await serverApi.get(`brokers/${slug}`);
+        try{
+            const responseBroker = await serverApi.get(`brokers/${slug}`);
 
-      if(responseBroker.data.error){
-        throw Error;
-      }
+            if(responseBroker.data.error){
+            throw Error;
+            }
 
-      broker = responseBroker.data;
-    }catch(error: any){
-        console.log("Erro ao buscar parceiro.");
+            broker = responseBroker.data;
+        }catch(error: any){
+            console.log("Erro ao buscar parceiro.");
+        }
     }
-  }
 
-  const response = await axios.get('https://contempladas.lanceconsorcio.com.br');
+    const response = await axios.get('https://contempladas.lanceconsorcio.com.br');
 
-  console.log(broker);
+    const quotas = response.data;
 
-  return {
-    props: {
-      quotas: response.data,
-      broker: broker
+    const vehicleQuotas = quotas.filter((quota:Quota) => quota.categoria === "Veículo")
+    vehicleQuotas.sort(function (a:Quota, b:Quota) {
+        if(parseFloat(a.valor_credito.replace(".", "").replace(",", ".")) > parseFloat(b.valor_credito.replace(".", "").replace(",", "."))){
+            return 1;
+        }
+
+        if(parseFloat(a.valor_credito.replace(".", "").replace(",", ".")) < parseFloat(b.valor_credito.replace(".", "").replace(",", "."))){
+            return -1;
+        }
+
+        return 0;
+    });
+
+    const realtyQuotas = quotas.filter((quota:Quota) => quota.categoria === "Imóvel")
+    realtyQuotas.sort(function (a:Quota, b:Quota) {
+        if(parseFloat(a.valor_credito.replace(".", "").replace(",", ".")) > parseFloat(b.valor_credito.replace(".", "").replace(",", "."))){
+            return 1;
+        }
+
+        if(parseFloat(a.valor_credito.replace(".", "").replace(",", ".")) < parseFloat(b.valor_credito.replace(".", "").replace(",", "."))){
+            return -1;
+        }
+
+        return 0;
+    });
+    return {
+        props: {
+            quotas: [...vehicleQuotas, ...realtyQuotas],
+            broker: broker
+        }
     }
-  }
 }

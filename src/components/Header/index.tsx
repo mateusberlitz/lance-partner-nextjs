@@ -24,7 +24,7 @@ export function Header({broker}: HeaderProps){
         <Flex w="100vw" px="6" bg="rgba(0,0,0,0.4);" backdropFilter="blur(20px)" pos="fixed" top="0" zIndex="99" h="68px">
             <HStack w="100%" m="0 auto" maxW="1200px" py="0" justify="space-between" fontWeight="normal" color="white">
                 <Link href="/">
-                    <a href="">
+                    <a href={`https://centraldecontempladas.com.br/${broker.slug}`}>
                         {
                             //broker.logo && <Img w="100%" maxW={["100px", "100px", "100px" ]} src={`${storageApi}${broker.logo}`} alt="Lance Consórcio - O plano para conquistar seus sonhos" flexWrap="wrap"/>
                         }
