@@ -28,7 +28,7 @@ export function Header({broker}: HeaderProps){
                         {
                             //broker.logo && <Img w="100%" maxW={["100px", "100px", "100px" ]} src={`${storageApi}${broker.logo}`} alt="Lance Consórcio - O plano para conquistar seus sonhos" flexWrap="wrap"/>
                         }
-                        <Text fontSize={["lg", "xl"]}>{broker.name_display ? broker.name_display : broker.name}</Text>
+                        <Text fontSize={["md", "lg", "xl"]}>{broker.name_display ? broker.name_display : broker.name}</Text>
                     </a>
                 </Link>
 
@@ -55,7 +55,10 @@ export function Header({broker}: HeaderProps){
                                 <DrawerOverlay />
                                 <DrawerContent px="7" pr="16" bg="rgba(0,0,0,0.4);" backdropFilter="blur(20px)" color="white">
                                     <DrawerCloseButton fontSize="16px" top="3" right="4"/>
-                                    <HeaderLinkList />
+                                    <Stack direction={isWideVersion ? "row" : "column"} spacing="8">
+                                        <HeaderLink href={`mailto:${broker.email}`}>E-mail</HeaderLink>
+                                        <HeaderLink href={`https://api.whatsapp.com/send?phone=55${broker.phone.replace(/[\(\)\s\-]/g, '')}`}>Contato</HeaderLink>
+                                    </Stack>
                                 </DrawerContent>
                             </Drawer>
                         </>

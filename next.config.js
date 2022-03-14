@@ -12,8 +12,8 @@ const nextConfig = {
   env: {
     PARTNER_PUBLIC_API: 'https://lance-partner-backend.herokuapp.com/public/api/',
     PARTNER_PUBLIC_STORAGE: '', //https://lance-partner.s3.sa-east-1.amazonaws.com/
-    PARTNER_PUBLIC_LOCAL_API: 'http://localhost/Novidades/lance-partner-backend/public/api/',
-    PARTNER_PUBLIC_LOCAL_STORAGE: 'http://localhost/Novidades/lance-partner-backend/public/storage/',
+    PARTNER_PUBLIC_LOCAL_API: 'https://lance-partner-backend.herokuapp.com/public/api/',
+    PARTNER_PUBLIC_LOCAL_STORAGE: '',//'http://localhost/Novidades/lance-partner-backend/public/storage/',
   },
 }
 

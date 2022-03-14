@@ -52,7 +52,7 @@ interface SelectQuota{
 export default function Home({quotas, broker}: ContempladasProps){
 
   const toast = useToast();
-  const fontSize = useBreakpointValue({base: '9px', md: 'sm', lg: '',});
+  const fontSize = useBreakpointValue({base: '9px', md: 'sm', lg: 'sm',});
   const buttonFontSize = useBreakpointValue({base: 'sm', md: 'sm', lg: '',});
   const isWideVersion = useBreakpointValue({base: false, lg: true});
 
@@ -219,6 +219,9 @@ export default function Home({quotas, broker}: ContempladasProps){
                     <title>{broker.name_display ? broker.name_display : broker.name}</title>
                     <meta name="description" content={`Estoque de cartas contempladas ${broker.name}`} />
                     <link rel="icon" href="/favicon.ico" />
+
+                    <link rel="logo" type="image/png" href={`${storageApi}${broker.logo}`}></link>
+                    <meta property="og:image" content={`${storageApi}${broker.logo}`}></meta>
                 </Head>
 
                 <ChakraProvider theme={theme}>
