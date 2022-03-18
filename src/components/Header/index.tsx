@@ -3,8 +3,9 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { HeaderLink } from "./HeaderLink";
 import HeaderLinkList from "./HeaderLinkList";
-import { Menu } from "react-feather";
+import { Mail, Menu } from "react-feather";
 import { Broker } from "../../pages/[slug]";
+import Whatsapp from '../../../public/icons/whatsapp.svg';
 
 interface HeaderProps{
     broker: Broker;
@@ -34,8 +35,8 @@ export function Header({broker}: HeaderProps){
                     isWideVersion ? (
                         <>
                             <Stack direction={isWideVersion ? "row" : "column"} spacing="8">
-                                <HeaderLink href={`mailto:${broker.email}`}>E-mail</HeaderLink>
-                                <HeaderLink href={`https://api.whatsapp.com/send?phone=55${broker.phone.replace(/[\(\)\s\-]/g, '')}`}>Contato</HeaderLink>
+                                <HeaderLink href={`mailto:${broker.email}`}><Icon as={Mail} width="12px" stroke="#fff" mr="2"/>E-mail</HeaderLink>
+                                <HeaderLink href={`https://api.whatsapp.com/send?phone=55${broker.phone.replace(/[\(\)\s\-]/g, '')}`}><Icon as={Whatsapp} width="12px" fill="#fff" mr="2"/> Contato</HeaderLink>
                             </Stack>
                         </>
                     ) : (
@@ -54,8 +55,8 @@ export function Header({broker}: HeaderProps){
                                 <DrawerContent px="7" pr="16" bg="rgba(0,0,0,0.4);" backdropFilter="blur(20px)" color="white">
                                     <DrawerCloseButton fontSize="16px" top="3" right="4"/>
                                     <Stack direction={isWideVersion ? "row" : "column"} spacing="8">
-                                        <HeaderLink href={`mailto:${broker.email}`}>E-mail</HeaderLink>
-                                        <HeaderLink href={`https://api.whatsapp.com/send?phone=55${broker.phone.replace(/[\(\)\s\-]/g, '')}`}>Contato</HeaderLink>
+                                        <HeaderLink href={`mailto:${broker.email}`}><Icon as={Mail} width="12px" fill="#fff" mr="2"/> E-mail</HeaderLink>
+                                        <HeaderLink href={`https://api.whatsapp.com/send?phone=55${broker.phone.replace(/[\(\)\s\-]/g, '')}`}><Icon as={Whatsapp} width="12px" fill="#fff" mr="2"/> Contato</HeaderLink>
                                     </Stack>
                                 </DrawerContent>
                             </Drawer>
