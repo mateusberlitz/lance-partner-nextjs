@@ -63,7 +63,7 @@ Parcela: ${Intl.NumberFormat('pt-BR', {style: 'currency', currency: 'BRL' }).for
                 entry: accumulator.entry + parseFloat(quota.entrada.replace(".", "").replace(",", ".")),
                 deadline: accumulator.deadline + parseInt(quota.parcelas),
                 parcel: accumulator.parcel + parseFloat(quota.valor_parcela.replace(".", "").replace(",", ".")),
-                debt: accumulator.deadline + parseFloat(quota.valor_parcela.replace(".", "").replace(",", "."))*parseInt(quota.parcelas),
+                debt: accumulator.debt + parseFloat(quota.valor_parcela.replace(".", "").replace(",", "."))*parseInt(quota.parcelas),
             }
         }, {
             credit: 0,
