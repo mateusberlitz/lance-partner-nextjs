@@ -17,6 +17,7 @@ import NotFound from '../components/NotFound'
 import { serverApi, storageApi } from '../services/api'
 
 export interface Broker{
+  slug: string;
   name: string;
   name_display: string;
   email: string;
@@ -52,7 +53,7 @@ interface SelectQuota{
 export default function Home({quotas, broker}: ContempladasProps){
 
   const toast = useToast();
-  const fontSize = useBreakpointValue({base: '9px', md: 'sm', lg: '',});
+  const fontSize = useBreakpointValue({base: '9px', md: 'sm', lg: 'sm',});
   const buttonFontSize = useBreakpointValue({base: 'sm', md: 'sm', lg: '',});
   const isWideVersion = useBreakpointValue({base: false, lg: true});
 
@@ -219,6 +220,9 @@ export default function Home({quotas, broker}: ContempladasProps){
                     <title>{broker.name_display ? broker.name_display : broker.name}</title>
                     <meta name="description" content={`Estoque de cartas contempladas ${broker.name}`} />
                     <link rel="icon" href="/favicon.ico" />
+
+                    <link rel="logo" type="image/png" href={`${storageApi}${broker.logo}`}></link>
+                    <meta property="og:image" content={`${storageApi}${broker.logo}`}></meta>
                 </Head>
 
                 <ChakraProvider theme={theme}>
@@ -232,7 +236,7 @@ export default function Home({quotas, broker}: ContempladasProps){
                                 <Stack spacing="5" px={["6", "2"]}>
                                     <Stack flexDirection={['column', 'row']} spacing="4" justifyContent="space-between" alignItems="center">
                                         <Heading fontSize={["4xl","6xl"]}>Cotas Contempladas</Heading>
-                                        <Flex borderRadius="full" bg="gray.500" w="200px" h="200px" alignItems="center" justifyContent="center" overflow="hidden">
+                                        <Flex bg="" w="200px" h="200px" alignItems="center" justifyContent="center" overflow="hidden">
                                             {
                                                 broker.logo && <Img maxW="100%" src={`${storageApi}${broker.logo}`} alt={`${broker.name_display ? broker.name_display : broker.name} - Créditos para conquistar seus sonhos`} flexWrap="wrap"/>
                                             }
@@ -240,7 +244,7 @@ export default function Home({quotas, broker}: ContempladasProps){
                                         {/* <Text fontSize="2xl">{broker.name_display ? broker.name_display : broker.name}</Text> */}
                                     </Stack>
 
-                                    <Divider w="100px" border="1px" borderColor="first" />
+                                    <Box w="100px" h="2px" bg="first" />
 
                                     <Text>Encontre e some as melhores ofertas para você!</Text>
                                 </Stack>
@@ -390,30 +394,55 @@ export default function Home({quotas, broker}: ContempladasProps){
 export const getServerSideProps: GetServerSideProps = async ({req, params }) => {
     let broker = null;
 
-  if(params){
-    const { slug } = params;
+    if(params){
+        const { slug } = params;
 
-    try{
-      const responseBroker = await serverApi.get(`brokers/${slug}`);
+        try{
+            const responseBroker = await serverApi.get(`brokers/${slug}`);
 
-      if(responseBroker.data.error){
-        throw Error;
-      }
+            if(responseBroker.data.error){
+            throw Error;
+            }
 
-      broker = responseBroker.data;
-    }catch(error: any){
-        console.log("Erro ao buscar parceiro.");
+            broker = responseBroker.data;
+        }catch(error: any){
+            console.log("Erro ao buscar parceiro.");
+        }
     }
-  }
 
-  const response = await axios.get('https://contempladas.lanceconsorcio.com.br');
+    const response = await axios.get('https://contempladas.lanceconsorcio.com.br');
 
-  console.log(broker);
+    const quotas = response.data;
 
-  return {
-    props: {
-      quotas: response.data,
-      broker: broker
+    const vehicleQuotas = quotas.filter((quota:Quota) => quota.categoria === "Veículo")
+    vehicleQuotas.sort(function (a:Quota, b:Quota) {
+        if(parseFloat(a.valor_credito.replace(".", "").replace(",", ".")) > parseFloat(b.valor_credito.replace(".", "").replace(",", "."))){
+            return 1;
+        }
+
+        if(parseFloat(a.valor_credito.replace(".", "").replace(",", ".")) < parseFloat(b.valor_credito.replace(".", "").replace(",", "."))){
+            return -1;
+        }
+
+        return 0;
+    });
+
+    const realtyQuotas = quotas.filter((quota:Quota) => quota.categoria === "Imóvel")
+    realtyQuotas.sort(function (a:Quota, b:Quota) {
+        if(parseFloat(a.valor_credito.replace(".", "").replace(",", ".")) > parseFloat(b.valor_credito.replace(".", "").replace(",", "."))){
+            return 1;
+        }
+
+        if(parseFloat(a.valor_credito.replace(".", "").replace(",", ".")) < parseFloat(b.valor_credito.replace(".", "").replace(",", "."))){
+            return -1;
+        }
+
+        return 0;
+    });
+    return {
+        props: {
+            quotas: [...vehicleQuotas, ...realtyQuotas],
+            broker: broker
+        }
     }
-  }
 }

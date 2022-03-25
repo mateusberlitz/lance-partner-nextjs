@@ -22,7 +22,7 @@ export function Footer({broker} : FooterProps){
         <Flex flexDir="column" w="100%" bg="gray.900" color="white" px="6">
             <Stack direction={["column", "column", "row"]} spacing={["16", "14", "12"]} bg="gray.900" w="100%" maxW="1200px" m="0 auto" py="20" justifyContent="space-between">
                 <Stack direction={["row", "row", "column"]} spacing="16">
-                    <Flex borderRadius="full" bg="gray.500" w="150px" h="150px" alignItems="center" justifyContent="center" overflow="hidden">
+                    <Flex w="150px" h="150px" alignItems="center" justifyContent="center" overflow="hidden">
                         {
                             broker.logo && <Img maxW="100%" src={`${storageApi}${broker.logo}`} alt="Lance Consórcio - O plano para conquistar seus sonhos" flexWrap="wrap"/>
                         }
@@ -79,7 +79,7 @@ export function Footer({broker} : FooterProps){
 
             </Stack>
 
-            <Stack direction={["column", "row", "row"]} spacing="8" w="100%" maxW="1200px" m="0 auto" py="8" justifyContent="space-between" borderTop="1px solid #222" color="gray.300">
+            <Stack direction={["column", "row", "row"]} spacing="8" w="100%" maxW="1200px" m="0 auto" py="8" justifyContent="space-between" borderTop="1px solid #222" color="gray.300" pb="90px">
                 <Stack>
                     <HStack>
                         <MapPin width="14px"/>
