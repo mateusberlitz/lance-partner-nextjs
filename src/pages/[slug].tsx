@@ -324,7 +324,7 @@ export default function Home({quotas, broker}: ContempladasProps){
                                                                     <IconButton onClick={() => handleContact(quota)} size="sm" minW="26px" h="26px" p="0" colorScheme='green' bg="transparent" border="1px solid" borderColor="gray.400" _hover={{borderColor: 'green.400'}} aria-label='Chamar no whatsapp' icon={<Whatsapp width="10px" stroke="#48bb78"/>}/>
                                                                 }
                                                             </Td>
-                                                            <Td p="2px" {...border}>
+                                                            <Td p="2px" {...border} color={quota.reserva === "Disponível" ? "green.400" : "red.400"}>
                                                                 {
                                                                     isWideVersion ? quota.reserva :
                                                                     (
