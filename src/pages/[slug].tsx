@@ -38,6 +38,8 @@ export interface Quota{
   valor_credito: string;
   valor_parcela: string;
   reserva: string;
+  taxa: string;
+  fundo: string;
 }
 
 interface ContempladasProps{

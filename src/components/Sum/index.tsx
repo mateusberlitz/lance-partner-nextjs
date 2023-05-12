@@ -19,6 +19,8 @@ interface Amount{
     deadline: number;
     parcel: number;
     debt: number;
+    tax: number;
+    fund: number;
 }
 
 export default function Sum({isOpen, handleCloseSumModal, selectedQuotas, broker} : SumModalProps){
@@ -27,6 +29,8 @@ export default function Sum({isOpen, handleCloseSumModal, selectedQuotas, broker
     const [sendCards, setSendCards] = useState(false);
     const [sendEntry, setSendEntry] = useState(false);
     const [sendDebt, setSendDebt] = useState(false);
+    const [sendTax, setSendTax] = useState(false);
+    const [sendFund, setSendFund] = useState(false);
 
   const phoneWithoutFormat = broker ? broker.phone.replace(/[\(\)\s\-]/g, '') : '';
 
@@ -35,12 +39,16 @@ export default function Sum({isOpen, handleCloseSumModal, selectedQuotas, broker
         entry: 0,
         deadline: 0,
         parcel: 0,
-        debt: 0
+        debt: 0,
+        tax: 0,
+        fund: 0
     });
 
     const handleSend = () => {
         const entryText = sendEntry ? `\nEntrada: ${Intl.NumberFormat('pt-BR', {style: 'currency', currency: 'BRL' }).format(amount.entry)}` : ``;
         const debtText = sendDebt ? `\nSaldo Devedor: ${Intl.NumberFormat('pt-BR', {style: 'currency', currency: 'BRL' }).format(amount.debt)}` : ``;
+        const fundText = sendFund ? `\nFundo Comum: ${Intl.NumberFormat('pt-BR', {style: 'currency', currency: 'BRL' }).format(amount.fund)}` : ``;
+        const taxText = sendTax ? `\nTaxa de transferência: ${Intl.NumberFormat('pt-BR', {style: 'currency', currency: 'BRL' }).format(amount.tax)}` : ``;
 
         const cardsText = sendCards ? selectedQuotas.reduce((accumulator, quota) => {
             return `${accumulator}\nCarta ${quota.id} - ${quota.categoria}: R$ ${quota.valor_credito} (${quota.parcelas}x R$${quota.valor_parcela})`
@@ -50,7 +58,7 @@ export default function Sum({isOpen, handleCloseSumModal, selectedQuotas, broker
 
 Crédito: ${Intl.NumberFormat('pt-BR', {style: 'currency', currency: 'BRL' }).format(amount.credit)} ${entryText}
 Prazo: ${amount.deadline}x
-Parcela: ${Intl.NumberFormat('pt-BR', {style: 'currency', currency: 'BRL' }).format(amount.parcel)} ${debtText}
+Parcela: ${Intl.NumberFormat('pt-BR', {style: 'currency', currency: 'BRL' }).format(amount.parcel)} ${fundText} ${taxText} ${debtText}
         ${cardsText}`;
 
         window.open(`https://api.whatsapp.com/send?text=${window.encodeURIComponent(text)}`);
@@ -64,13 +72,17 @@ Parcela: ${Intl.NumberFormat('pt-BR', {style: 'currency', currency: 'BRL' }).for
                 deadline: accumulator.deadline + parseInt(quota.parcelas),
                 parcel: accumulator.parcel + parseFloat(quota.valor_parcela.replace(".", "").replace(",", ".")),
                 debt: accumulator.debt + parseFloat(quota.valor_parcela.replace(".", "").replace(",", "."))*parseInt(quota.parcelas),
+                tax: accumulator.tax + (quota.taxa ? parseFloat(quota.taxa.toString().replace('.', '').replace(',', '.')) : 0),
+                fund: accumulator.fund + (quota.fundo ? parseFloat(quota.fundo.toString().replace('.', '').replace(',', '.')) : 0),
             }
         }, {
             credit: 0,
             entry: 0,
             deadline: 0,
             parcel: 0,
-            debt: 0
+            debt: 0,
+            tax: 0,
+            fund: 0
         });
 
         newAmount.deadline = Math.ceil(newAmount.deadline / selectedQuotas.length);
@@ -120,6 +132,14 @@ Parcela: ${Intl.NumberFormat('pt-BR', {style: 'currency', currency: 'BRL' }).for
                                     <Td bg="gray.200">{Intl.NumberFormat('pt-BR', {style: 'currency', currency: 'BRL' }).format(amount.parcel)}</Td>
                                 </Tr>
                                 <Tr>
+                                    <Td bg="gray.200">Fundo comum</Td>
+                                    <Td bg="gray.200">{Intl.NumberFormat('pt-BR', {style: 'currency', currency: 'BRL' }).format(amount.fund)}</Td>
+                                </Tr>
+                                <Tr>
+                                    <Td bg="gray.200">Taxa de Transferência</Td>
+                                    <Td bg="gray.200">{Intl.NumberFormat('pt-BR', {style: 'currency', currency: 'BRL' }).format(amount.tax)}</Td>
+                                </Tr>
+                                <Tr>
                                     <Td bg="gray.200" fontWeight="bold">Saldo Devedor</Td>
                                     <Td bg="gray.200" fontWeight="bold">{Intl.NumberFormat('pt-BR', {style: 'currency', currency: 'BRL' }).format(amount.debt)}</Td>
                                 </Tr>
@@ -140,6 +160,8 @@ Parcela: ${Intl.NumberFormat('pt-BR', {style: 'currency', currency: 'BRL' }).for
                                     <Checkbox borderColor="gray.600" onChange={(event: ChangeEvent<HTMLInputElement>) => setSendCards(event.target?.checked)}><Text>Cartas selecionadas</Text></Checkbox>
                                     <Checkbox borderColor="gray.600" onChange={(event: ChangeEvent<HTMLInputElement>) => setSendEntry(event.target?.checked)}><Text>Saldo devedor</Text></Checkbox>
                                     <Checkbox borderColor="gray.600" onChange={(event: ChangeEvent<HTMLInputElement>) => setSendDebt(event.target?.checked)}><Text>Entrada</Text></Checkbox>
+                                    <Checkbox borderColor="gray.600" onChange={(event: ChangeEvent<HTMLInputElement>) => setSendTax(event.target?.checked)}><Text>Taxa de transferência</Text></Checkbox>
+                                    <Checkbox borderColor="gray.600" onChange={(event: ChangeEvent<HTMLInputElement>) => setSendFund(event.target?.checked)}><Text>Fundo comum</Text></Checkbox>
                                 </Stack>
 
                                 <MainButton size="lg" onClick={() => handleSend()}>
