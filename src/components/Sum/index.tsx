@@ -1,4 +1,4 @@
-import { Heading, Modal, ModalBody, ModalCloseButton, ModalContent, ModalOverlay, Stack, Text, Table, Thead, Tbody, Td, Th, Tr, Tfoot, Checkbox } from "@chakra-ui/react";
+import { Heading, Modal, ModalBody, ModalCloseButton, ModalContent, ModalOverlay, Stack, Text, Table, Thead, Tbody, Td, Th, Tr, Tfoot, Checkbox, Accordion, AccordionItem, AccordionButton, Box, AccordionIcon, AccordionPanel, HStack } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { ChangeEvent, useEffect, useState } from "react";
 import { Broker, Quota } from "../../pages/[slug]";
@@ -151,6 +151,72 @@ Parcela: ${Intl.NumberFormat('pt-BR', {style: 'currency', currency: 'BRL' }).for
                                 </Tr>
                             </Tfoot> */}
                         </Table>
+
+                        <Accordion w="100%" allowToggle>
+                            <AccordionItem w="100%">
+                                <h2>
+                                <AccordionButton>
+                                    <Box flex='1' textAlign='left'>
+                                        Cartas Selecionadas
+                                    </Box>
+                                    <AccordionIcon />
+                                </AccordionButton>
+                                </h2>
+                                <AccordionPanel pb={4}>
+
+                                <Table size='sm' borderRadius="4px" overflow="hidden" maxW="100%">
+                                    <Tbody>
+                                        {
+                                            selectedQuotas.map((quota) => {
+                                                return(
+                                                    <Tr key={quota.id} fontSize={"14px"}>
+                                                        <Td px="0">
+                                                            <Stack spacing="0">
+                                                                <Text fontSize="11px" color="gray.700">{quota.id}</Text>
+                                                                <Text color="gray.900" fontWeight="bold">{quota.categoria}</Text>
+                                                            </Stack>
+                                                        </Td>
+                                                        {/* <Td>{quota.categoria}</Td> */}
+                                                        {/* <Td>{quota.valor_credito}</Td>
+                                                        <Td>{quota.parcelas}x</Td> */}
+                                                        <Td textAlign={"right"} px="0">
+                                                            <Stack spacing="0">
+                                                                <Text fontWeight="bold">{quota.valor_credito}</Text>
+                                                                <Text fontSize="11px" fontWeight="">{quota.parcelas}x {quota.valor_parcela}</Text>
+                                                            </Stack>
+                                                        </Td>
+                                                    </Tr>
+                                                )
+                                            })
+                                        }
+                                    </Tbody>
+                                    {/* <Tfoot>
+                                        <Tr>
+                                        <Th bg="black" color="white" fontFamily="Inter" textTransform="capitalize" fontSize="sm" py="16px">Prazo: 180 meses</Th>
+                                        <Th bg="black" color="white" fontFamily="Inter" textTransform="capitalize" fontSize="sm" py="16px">Meia parcela: R$683,00</Th>
+                                        </Tr>
+                                    </Tfoot> */}
+                                </Table>
+
+                                    {
+                                        selectedQuotas.map((quota) => {
+                                            //return(
+                                                <HStack key={quota.id} fontSize={"14px"} w="100%" justifyContent="space-between">
+                                                    <Stack spacing="0">
+                                                        <Text fontSize="11px" color="gray.700">{quota.id}</Text>
+                                                        <Text color="gray.900">{quota.categoria}</Text>
+                                                    </Stack>
+                                                    <Stack spacing="0">
+                                                        <Text fontWeight="bold">{quota.valor_credito}</Text>
+                                                        <Text fontSize="11px" fontWeight="">{quota.parcelas}x {quota.valor_parcela}</Text>
+                                                    </Stack>
+                                                </HStack>
+                                            //)
+                                        })
+                                    }
+                                </AccordionPanel>
+                            </AccordionItem>
+                        </Accordion>
 
                         <Board boxShadow="none" border="1px solid" borderColor="gray.200" padding="5" display="flex" flexDir="row" justifyContent="space-between" alignItems="center">
                             <Stack spacing="6">
