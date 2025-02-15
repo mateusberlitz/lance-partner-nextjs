@@ -14,9 +14,9 @@ export function Menu(){
         <Flex flexDir="column" w="100%" bg="white" boxShadow="sm" mb="10" px="6">
             <HStack w="100%" maxW="1000px" m="0 auto" py="8" justifyContent="space-between">
                 <HStack spacing={["6","6"]}>
-                    <a href="/admin/">
+                    <Link href="/admin/">
                         <Img w="100%" maxW={["100px", "100px", "100px" ]} src={`/lance.svg`} alt="Lance Consórcio - O plano para conquistar seus sonhos" flexWrap="wrap"/>
-                    </a>
+                    </Link>
                     <Divider orientation="vertical" borderColor="red.500" h="30px" />
                     <Heading fontSize={["lg", "xl", "xl" ]} fontWeight="normal" color="gray.900">Plataforma de contempladas</Heading>
                 </HStack>

@@ -33,7 +33,7 @@ export function Slider({ name, type, icon, variant = "", value = 200000, label =
         if(onChange){
             onChange(value);
         }
-    }, [value]);
+    }, [value, onChange]);
 
     function getControlledInputAttributes(){
         if(register){

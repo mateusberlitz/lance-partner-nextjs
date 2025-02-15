@@ -8,7 +8,7 @@ interface FooterLinkProps extends ChakraProps{
 
 export function FooterLink({ href, children, ...rest }: FooterLinkProps){
     return (
-        <Link href={href}>
+        <Link href={href} passHref>
             <ChakraLink href={href} cursor="pointer" _hover={{textDecoration: 'underline'}} _focus={{border: 'none'}} {...rest}>{children}</ChakraLink>
         </Link>
     )

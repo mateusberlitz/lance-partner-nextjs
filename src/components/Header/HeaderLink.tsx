@@ -14,7 +14,7 @@ export function HeaderLink({ href, children, ...rest }: HeaderLinkProps){
     const isActive = asPath === href;
 
     return (
-        <Link href={href}>
+        <Link href={href} passHref>
             <ChakraLink href={href} alignItems="center" borderBottom={"2px solid"} borderColor={isActive ? "first" : "transparent"} display="flex" cursor="pointer" h="68px" _hover={{textDecoration: 'none', borderBottom: '2px solid', borderColor: 'first'}} _focus={{border: 'none'}} {...rest}>
                 {children}
             </ChakraLink>

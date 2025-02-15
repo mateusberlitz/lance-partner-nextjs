@@ -46,7 +46,7 @@ export function MoneyInput({ name, type, icon, variant = "", value = "", mask = 
         if(onChange){
             onChange(value);
         }
-    }, [value]);
+    }, [value, onChange]);
 
     // useEffect(() => {
     //     ref.dispatchEvent(customEvent);

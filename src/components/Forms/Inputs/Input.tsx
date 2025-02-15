@@ -51,7 +51,7 @@ export function Input({ name, type, icon, variant = "", inputLink, value = "", l
         if(onChange){
             onChange(value);
         }
-    }, [value]);
+    }, [value, onChange]);
 
     // useEffect(() => {
     //     ref.dispatchEvent(customEvent);

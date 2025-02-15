@@ -160,7 +160,7 @@ function AdminPageContent({quotas, broker}: ContempladasProps){
 
     useEffect(() => {
         loadProfilePartnerData();
-    }, [profile])
+    }, [profile, loadProfilePartnerData])
 
     console.log(profile);
     

@@ -24,7 +24,7 @@ export default function VerticalStep({title, children, icon, iconColor} : Vertic
         }
         //setLineParentHeight(lineRef?.current?.clientHeight ? lineRef?.current?.clientHeight : 0);
         //console.log(lineRef?.current?.clientHeight);
-    });
+    }, [setActive]);
 
     return(
         <HStack ref={lineRef} spacing="6" p={12} pl="1" justifyContent="space-between" borderBottom="1px solid" borderColor="gray.200">

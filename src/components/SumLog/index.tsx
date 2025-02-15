@@ -70,7 +70,7 @@ export function SumLog(){
                             {
                                 sums.map(sum => {
                                     return (
-                                        <AccordionItem title={""} border="0" borderBottom="1px dashed" borderColor={"gray.200"}>
+                                        <AccordionItem key={`soma-${sum.created_at}`} title={""} border="0" borderBottom="1px dashed" borderColor={"gray.200"}>
                                             <h2>
                                                 <AccordionButton>
                                                     <Box as='span' flex='1' textAlign='left'>
