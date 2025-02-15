@@ -1,20 +1,22 @@
 import { Box, Divider, Flex, Heading, HStack, Icon, Img, Input, Spinner, Stack, Text, useToast } from "@chakra-ui/react";
 import { GetServerSideProps } from "next";
 import Router, { useRouter } from "next/router";
-import { Edit, LogOut } from "react-feather";
-import { OutlineButton } from "../../components/Buttons/OutlineButton";
-import { ControlledInput } from "../../components/Forms/Inputs/ControlledInput";
-import { TextTag } from "../../components/TextTag";
-import { useProfile } from "../../contexts/useProfile";
+import { Edit, LogOut, Settings } from "react-feather";
+import { OutlineButton } from "../../../components/Buttons/OutlineButton";
+import { ControlledInput } from "../../../components/Forms/Inputs/ControlledInput";
+import { TextTag } from "../../../components/TextTag";
+import { useProfile } from "../../../contexts/useProfile";
 
 import { useForm } from "react-hook-form";
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { SolidButton } from "../../components/Buttons/SolidButton";
+import { SolidButton } from "../../../components/Buttons/SolidButton";
 import { useEffect, useRef, useState } from "react";
-import { serverApi, storageApi } from "../../services/api";
-import { showErrors } from "../../contexts/useErrors";
-import { ColorPicker } from "../../components/Forms/ColorPicker";
+import { serverApi, storageApi } from "../../../services/api";
+import { showErrors } from "../../../contexts/useErrors";
+import { ColorPicker } from "../../../components/Forms/ColorPicker";
+import Link from "next/link";
+import { Menu } from "../../../components/Menu";
 
 interface ProfileFormData{
     name: string;
@@ -39,7 +41,7 @@ const profileFormSchema = yup.object().shape({
     second_color: yup.string().required('Defina uma cor secundária para sua página'),
 });
 
-export default function AdminPage(){
+export default function ConfigurationPage(){
     const toast = useToast();
     const router = useRouter();
     const { profile, signOut } = useProfile();
@@ -131,21 +133,7 @@ export default function AdminPage(){
 
     return profile ? (
         <Box bg="gray.100">
-            <Flex flexDir="column" w="100%" bg="white" boxShadow="sm" mb="10" px="6">
-                <HStack w="100%" maxW="1000px" m="0 auto" py="8" justifyContent="space-between">
-                    <HStack spacing={["6","12"]}>
-                        <a href="https://lanceconsorcio.com.br">
-                            <Img w="100%" maxW={["100px", "100px", "100px" ]} src={`/lance.svg`} alt="Lance Consórcio - O plano para conquistar seus sonhos" flexWrap="wrap"/>
-                        </a>
-                        <Divider orientation="vertical" borderColor="red.500" h="30px" />
-                        <Heading fontSize={["lg", "xl", "2xl" ]} fontWeight="normal" color="gray.900">Plataforma de contempladas</Heading>
-                    </HStack>
-
-                    <OutlineButton onClick={() => signOut()} px="4" size="sm" leftIcon={<Icon as={LogOut} />} borderColor="gray.300" _hover={{borderColor: 'gray.900'}}>
-                        Sair
-                    </OutlineButton>
-                </HStack>
-            </Flex>
+            <Menu/>
 
             <Flex flexDir="column" w="100%" px="6">
                 <Stack w="100%" maxW="1000px" m="0 auto" py="5" spacing="20" mb="32">

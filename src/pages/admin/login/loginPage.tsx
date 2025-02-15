@@ -1,5 +1,4 @@
-import { Checkbox, Flex, Stack, Text, useToast } from "@chakra-ui/react";
-import Link from "next/link";
+import { Checkbox, Flex, HStack, Link, Stack, Text, useToast } from "@chakra-ui/react";
 import { SolidButton } from "../../../components/Buttons/SolidButton";
 import { Input } from "../../../components/Forms/Inputs/Input";
 
@@ -51,9 +50,12 @@ export default function LoginPage(){
                     {/* <Checkbox color="gray.600" colorScheme="red">Lembrar acesso</Checkbox> */}
 
                     <SolidButton isLoading={formState.isSubmitting} type="submit" colorScheme="red" w="100%" h="50">Entrar</SolidButton>
+                    {/* <HStack textAlign={"center"} w="100%" justifyContent={"center"}>
+                        <Link href="/admin/register">Criar uma conta de parceiro.</Link>
+                    </HStack> */}
                 </Stack>
 
-                <Link href="/password"><Text color="gray.700">Esqueci minha senha</Text></Link>
+                <Link href="/admin/recovery"><Text color="gray.700">Esqueci minha senha</Text></Link>
             </Flex>
         </ProfileProvider>
     )

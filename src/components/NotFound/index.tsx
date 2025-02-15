@@ -21,7 +21,7 @@ export default function NotFound(){
                             <Box h="50px" w="2px" bg="red.400"/>
 
                             <Stack>
-                                <Heading>Página não contemplada</Heading>
+                                <Heading color="gray.800">Página não contemplada</Heading>
                                 <Text color="gray.600">Infelizmente, não existe nenhum conteúdo acessando esse endereço.</Text>
                             </Stack>
                         </HStack>

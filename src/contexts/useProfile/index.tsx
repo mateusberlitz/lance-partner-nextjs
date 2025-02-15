@@ -18,6 +18,7 @@ interface SimplePermission{
 interface ProfileContextData{
     profile?: Profile;
     isAuthenticated: Boolean;
+    loading: Boolean;
     signIn: (signInData: SignInFormData) => Promise<void>;
     signOut: () => void;
 }
@@ -28,22 +29,28 @@ interface SignInFormData{
     remember?: string;
 }
 
-interface Profile{
+export interface Profile{
+    id: number;
+    slug: string;
     name: string;
     name_display: string;
     email: string;
     email_display: string;
     address: string;
     phone: string;
+    master: boolean;
     logo: string;
     color: string;
     second_color: string;
+    created_at?: string;
+    email_verified_at?: string;
 }
 
 const ProfileContext = createContext<ProfileContextData>({} as ProfileContextData);
 
 export function ProfileProvider({ children } : ProfileProviderProps){
     const toast = useToast();
+    const [loading, setLoading] = useState<boolean>(false);
     const [profile, setProfile] = useState<Profile>();
     const [token, setToken] = useState<string>(() => {
 
@@ -101,21 +108,40 @@ export function ProfileProvider({ children } : ProfileProviderProps){
 
     //LOADERS
     const loadProfile = async () => {
+        setLoading(true);
         if(token){
             await serverApi.get('/me')
-            .then((response) => setProfile(response.data))
+            .then((response) => {
+                // const data: Profile = {
+                //     name: response.data.name,
+                //     name_display: response.data.name_display,
+                //     address: response.data.address,
+                //     email: response.data.email,
+                //     email_display: response.data.email_display,
+                //     phone: response.data.phone,
+                //     logo: response.data.logo,
+                //     color: response.data.color,
+                //     second_color: response.data.second_color,
+                // };
+                // console.log(data);
+
+                setProfile(response.data);
+                setLoading(false);
+            })
             .catch((error: AxiosError) => {
                 signOut();
+                setLoading(false);
             });
         }else{
             if(router.asPath !== '/admin/login'){
                 signOut();
+                setLoading(false);
             }
         }
     }
 
     return(
-        <ProfileContext.Provider value={{profile, signIn, signOut, isAuthenticated}}>
+        <ProfileContext.Provider value={{profile, loading, signIn, signOut, isAuthenticated}}>
             {children}
         </ProfileContext.Provider>
     )

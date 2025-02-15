@@ -14,3 +14,11 @@ a {
 * {
   box-sizing: border-box;
 }
+
+.open-log{
+    display: flex !important;
+}
+
+.hidden-log{
+    display: none !important;
+}

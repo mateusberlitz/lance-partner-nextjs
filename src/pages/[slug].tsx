@@ -8,7 +8,7 @@ import { Footer } from '../components/Footer'
 import { SolidButton } from '../components/Buttons/SolidButton'
 import ReactToPrint from 'react-to-print'
 import { ChangeEvent, useEffect, useRef, useState } from 'react'
-import Sum from '../components/Sum'
+import Sum from '../components/Sum-old'
 import { Check, X } from 'react-feather'
 import { CSVLink, } from "react-csv";
 
@@ -377,13 +377,11 @@ export default function Home({quotas, broker}: ContempladasProps){
                             </Stack>
                         </Flex>
 
-                        <Box position="fixed" right="20px" bottom="20px" zIndex="2" boxShadow="lg">
-                            {/* <Text>Simule um plano</Text> */}
-
+                        {/* <Box position="fixed" right="20px" bottom="20px" zIndex="2" boxShadow="lg">
                             <SolidButton onClick={() => handleOpenSumModal()} bgGradient='linear(to-r, first, first)' color="white" fontSize="md" size="lg">
                                 Somar
                             </SolidButton>
-                        </Box>
+                        </Box> */}
 
                         <Footer broker={broker}/>
                     </Box>

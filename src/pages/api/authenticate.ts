@@ -6,7 +6,7 @@ import { serverApi } from "../../services/api";
 export default async (request: NextApiRequest, response: NextApiResponse) => {
     if(request.method === 'POST'){
         try{
-            const serverResponse = await serverApi.post(`auth/login`, request.body);
+            const serverResponse = await serverApi.post(`auth/login`, {...request.body, remember: true});
 
             return response.status(serverResponse.status).json(serverResponse.data);
         }catch(error:any){
