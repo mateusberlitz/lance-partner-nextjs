@@ -75,7 +75,7 @@ export default function RecoveryPage(){
                                 <Check />
                                 <Stack>
                                     <Text fontSize={"xl"}>E-mail enviado</Text>
-                                    <Text>Confira o link de recuperação no seu e-mail</Text>
+                                    <Text>Confira o link de recuperação no seu e-mail cadastrado</Text>
                                 </Stack>
                             </HStack>
                         </Flex>
