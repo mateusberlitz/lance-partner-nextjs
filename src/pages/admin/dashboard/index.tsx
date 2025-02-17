@@ -3,7 +3,7 @@ import { GetServerSideProps } from "next";
 import { ProfileProvider, useProfile } from "../../../contexts/useProfile";
 
 import * as yup from 'yup';
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { serverApi } from "../../../services/api";
 import { Menu } from "../../../components/Menu";
 import axios from "axios";
@@ -134,14 +134,23 @@ function AdminPageContent({quotas, broker}: ContempladasProps){
         })
     }
 
-    const loadProfilePartnerData = () =>{
+    // const loadProfilePartnerData = () =>{
+    //     if(profile){
+    //         serverApi.get(`proxy/partners/${profile.slug}`).then((response) => {
+    //             setLoadingPartner(false);
+    //             setProfileAsPartner(response.data);
+    //         })
+    //     }
+    // }
+
+    const loadProfilePartnerData = useCallback(() => {
         if(profile){
             serverApi.get(`proxy/partners/${profile.slug}`).then((response) => {
                 setLoadingPartner(false);
                 setProfileAsPartner(response.data);
             })
         }
-    }
+      }, []);
 
     useEffect(() => {
 
@@ -301,7 +310,7 @@ function AdminPageContent({quotas, broker}: ContempladasProps){
                                                                                                 {
                                                                                                     (quotaSale.sale_ready_quotas.length > 0) && quotaSale.sale_ready_quotas.map((saleReadyQuota) => {
                                                                                                         return(
-                                                                                                            <Text fontSize="sm" fontWeight="bold" color="gray.800">{saleReadyQuota.ready_quota.group}-{saleReadyQuota.ready_quota.quota},</Text>
+                                                                                                            <Text key={`${saleReadyQuota.ready_quota.group}-${saleReadyQuota.ready_quota.quota}`} fontSize="sm" fontWeight="bold" color="gray.800">{saleReadyQuota.ready_quota.group}-{saleReadyQuota.ready_quota.quota},</Text>
                                                                                                         )
                                                                                                     })
                                                                                                 }
@@ -338,7 +347,7 @@ function AdminPageContent({quotas, broker}: ContempladasProps){
                                                                                                 {
                                                                                                     quotaSale.sale_ready_quotas.map((saleReadyQuota) => {
                                                                                                         return(
-                                                                                                            <Stack spacing="2" padding="3" bg="gray.100" borderRadius="16px">
+                                                                                                            <Stack key={`venda-${saleReadyQuota.id}`} spacing="2" padding="3" bg="gray.100" borderRadius="16px">
                                                                                                                 <HStack justifyContent={"space-between"} key={saleReadyQuota.id}>
                                                                                                                     <Stack spacing="0">
                                                                                                                         <Text fontSize="10px" color="gray.800">Cota</Text>

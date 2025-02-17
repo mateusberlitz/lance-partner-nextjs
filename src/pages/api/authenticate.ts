@@ -3,7 +3,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { ApiError } from "next/dist/server/api-utils";
 import { serverApi } from "../../services/api";
 
-export default async (request: NextApiRequest, response: NextApiResponse) => {
+const authenticateHandler = async (request: NextApiRequest, response: NextApiResponse) => {
     if(request.method === 'POST'){
         try{
             const serverResponse = await serverApi.post(`auth/login`, {...request.body, remember: true});
@@ -23,3 +23,5 @@ export default async (request: NextApiRequest, response: NextApiResponse) => {
         response.status(405).end('Method not allowed');
     }
 }
+
+export default authenticateHandler;
