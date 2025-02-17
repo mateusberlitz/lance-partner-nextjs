@@ -150,7 +150,7 @@ function AdminPageContent({quotas, broker}: ContempladasProps){
                 setProfileAsPartner(response.data);
             })
         }
-      }, []);
+      }, [profile]);
 
     useEffect(() => {
 
@@ -168,6 +168,7 @@ function AdminPageContent({quotas, broker}: ContempladasProps){
     }, [startDate, endDate])
 
     useEffect(() => {
+        console.log("chamou pela funçvao");
         loadProfilePartnerData();
     }, [profile, loadProfilePartnerData])
 
