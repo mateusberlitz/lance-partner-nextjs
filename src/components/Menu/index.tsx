@@ -24,7 +24,7 @@ export function Menu() {
             <Img
               w="100%"
               maxW={["100px", "100px", "100px"]}
-              src={`/logo-lance-novo.png`}
+              src={`/lance-logo-preto.png`}
               alt="Lance Consórcio - O plano para conquistar seus sonhos"
               flexWrap="wrap"
             />
