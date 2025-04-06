@@ -22,3 +22,7 @@ a {
 .hidden-log{
     display: none !important;
 }
+
+.react-datepicker{
+    width: fit-content;
+}
