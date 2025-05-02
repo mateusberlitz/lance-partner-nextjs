@@ -82,13 +82,21 @@ export default function LoginPage() {
             label="E-mail"
             error={formState.errors.email}
           />
-          <ControlledInput
-            control={control}
-            name="password"
-            type="password"
-            label="Senha"
-            error={formState.errors.password}
-          />
+          <Stack>
+            <ControlledInput
+              control={control}
+              name="password"
+              type="password"
+              label="Senha"
+              error={formState.errors.password}
+            />
+
+            <Link href="/admin/recovery">
+              <Text color="gray.700" fontSize={"sm"}>
+                Esqueci minha senha
+              </Text>
+            </Link>
+          </Stack>
 
           {/* <Checkbox color="gray.600" colorScheme="red">Lembrar acesso</Checkbox> */}
 
@@ -106,8 +114,8 @@ export default function LoginPage() {
                     </HStack> */}
         </Stack>
 
-        <Link href="/admin/recovery">
-          <Text color="gray.700">Esqueci minha senha</Text>
+        <Link href="/register">
+          <Text color="gray.700">Nao possui cadastro? Cadastre-se aqui</Text>
         </Link>
       </Flex>
     </ProfileProvider>
