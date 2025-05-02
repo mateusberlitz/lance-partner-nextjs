@@ -182,9 +182,9 @@ function AdminPageContent({quotas, broker}: ContempladasProps){
 
                                     <Flex flexDir="column" w="100%">
                                         <Stack flexDir="column" w="100%" maxW="1200px" m="0 auto" py="6" spacing="20" justifyContent="space-between">
-                                            <HStack justifyContent={"space-between"}>
+                                            <Stack flexDirection={['column', 'row']} justifyContent={"space-between"} spacing="6">
                                                 <Stack spacing="2" px={["6", "2"]}>
-                                                    <Stack flexDirection={['column', 'row']} spacing="4" justifyContent="space-between" alignItems="center">
+                                                    <Stack flexDirection={['column', 'row']} spacing="4" justifyContent="space-between" alignItems="left">
                                                         <Heading fontSize={["4xl","6xl"]}>Dashboard</Heading>
                                                         {/* <Flex bg="" w="200px" h="200px" alignItems="center" justifyContent="center" overflow="hidden">
                                                             {
@@ -199,16 +199,18 @@ function AdminPageContent({quotas, broker}: ContempladasProps){
                                                     <Text>Relatório de todas interações e negociações com a Lance Consórcio</Text>
                                                 </Stack>
 
-                                                <DatePicker
-                                                    selected={startDate}
-                                                    onChange={handleDateChange}
-                                                    startDate={startDate}
-                                                    endDate={endDate}
-                                                    selectsRange
-                                                    locale="ptBR"
-                                                    inline
-                                                />
-                                            </HStack>
+                                                <Stack p="6">
+                                                    <DatePicker
+                                                        selected={startDate}
+                                                        onChange={handleDateChange}
+                                                        startDate={startDate}
+                                                        endDate={endDate}
+                                                        selectsRange
+                                                        locale="ptBR"
+                                                        inline
+                                                    />
+                                                </Stack>
+                                            </Stack>
 
                                             {
                                                 loadingPartner && (
