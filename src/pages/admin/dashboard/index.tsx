@@ -402,7 +402,7 @@ function AdminPageContent({ quotas, broker }: ContempladasProps) {
                       {profileAsPartner.finished_processes} finalizados
                     </Text>
                     <Text fontSize="xl" w="100%">
-                      Crédito processos:{" "}
+                      Crédito disponíveis:{" "}
                       <b>{getAvailableProcesses(profileAsPartner)}</b>
                     </Text>
                   </Stack>
