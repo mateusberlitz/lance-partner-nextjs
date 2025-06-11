@@ -117,7 +117,7 @@ function getAvailableProcesses(partner: Partner): number {
   const totalPoints = soldQuotas + boughtQuotas;
 
   // Cálculo de processos a que tem direito (1 processo a cada 5 pontos)
-  const totalProcessesEntitled = Math.floor(totalPoints / 5);
+  const totalProcessesEntitled = Math.floor(totalPoints / 10);
 
   // Processos disponíveis = total a que tem direito menos os já utilizados
   const availableProcesses = Math.max(
