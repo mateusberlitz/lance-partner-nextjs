@@ -109,7 +109,7 @@ interface User {
 
 function getAvailableProcesses(partner: Partner): number {
   // Certifica-se que os valores existem e são numéricos
-  const soldQuotas = Number(partner.sold_quotas_count) || 0;
+  const soldQuotas = Number(partner.purchases?.length) || 0;
   const boughtQuotas = Number(partner.bought_quotas_count) || 0;
   const currentProcesses = Number(partner.processes) || 0;
 
