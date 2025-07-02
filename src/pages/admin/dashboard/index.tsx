@@ -339,7 +339,7 @@ function AdminPageContent({ quotas, broker }: ContempladasProps) {
                     py="8"
                   >
                     <Text fontSize="xl" w="100%">
-                      Vendas
+                      Compras
                     </Text>
 
                     <Text
