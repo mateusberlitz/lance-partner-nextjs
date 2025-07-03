@@ -116,7 +116,7 @@ function getAvailableProcesses(partner: Partner): number {
   // Total de pontos
   const totalPoints = soldQuotas + boughtQuotas;
 
-  // Cálculo de processos a que tem direito (1 processo a cada 5 pontos)
+  // Cálculo de processos a que tem direito (1 processo a cada 10 pontos)
   const totalProcessesEntitled = Math.floor(totalPoints / 10);
 
   // Processos disponíveis = total a que tem direito menos os já utilizados
@@ -380,7 +380,7 @@ function AdminPageContent({ quotas, broker }: ContempladasProps) {
                         Processos
                       </Text>
                       <HStack opacity={0.6}>
-                        <Tooltip label="A cada 3 vendas você ganha 1 crédito para efetuar o processo com o time interno da Lance Consórcio.">
+                        <Tooltip label="A cada 10 vendas ou compras você ganha 1 crédito para efetuar o processo com o time interno da Lance Consórcio.">
                           <Info />
                         </Tooltip>
                       </HStack>
@@ -698,7 +698,7 @@ function AdminPageContent({ quotas, broker }: ContempladasProps) {
                                   <Stack pb="6" pt="3">
                                     <HStack>
                                       <Text fontWeight="700" mr="2">
-                                        Cotas vendidas:{" "}
+                                        Cotas compradas:{" "}
                                       </Text>
                                     </HStack>
                                     {quotaSale.sale_ready_quotas.map(
