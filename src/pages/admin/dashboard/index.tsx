@@ -11,6 +11,11 @@ import {
   Link,
   Spinner,
   Stack,
+  Tab,
+  TabList,
+  TabPanel,
+  TabPanels,
+  Tabs,
   Text,
   Tooltip,
 } from "@chakra-ui/react";
@@ -27,7 +32,7 @@ import DatePicker, { registerLocale } from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { ptBR } from "date-fns/locale";
 import { formatYmdDate } from "../../../utils/Date/formatYmdDate";
-import { Partner, QuotaSale } from "../../../types";
+import { Partner, QuotaSale, ReadyQuotaPurchases } from "../../../types";
 import { Check, Home, Info, Minus, Plus, X } from "react-feather";
 import { SolidButton } from "../../../components/Buttons/SolidButton";
 import { RemoveButton } from "../../../components/Buttons/RemoveButton";
@@ -358,7 +363,7 @@ function AdminPageContent({ quotas, broker }: ContempladasProps) {
                       }).format(profileAsPartner.bought_quotas_total)}
                     </Text>
                     <Text fontSize="xl" w="100%">
-                      Cotas vendidas:{" "}
+                      Processos adquiridos:{" "}
                       <b>{profileAsPartner.bought_quotas_count}</b>
                     </Text>
                   </Stack>
@@ -408,429 +413,807 @@ function AdminPageContent({ quotas, broker }: ContempladasProps) {
                   </Stack>
                 </Stack>
 
-                <Accordion
-                  w="100%"
-                  border="2px"
-                  borderColor="gray.500"
-                  borderRadius="26"
-                  overflow="hidden"
-                  allowMultiple
-                >
-                  <HStack
-                    spacing="8"
-                    justify="space-between"
-                    paddingX="8"
-                    paddingY="3"
-                    bg="gray.200"
-                  >
-                    <Text fontWeight="extrabold">
-                      {profileAsPartner.bought_quotas_count} Compras
-                    </Text>
+                <Tabs colorScheme="black">
+                  <TabList>
+                    <Tab>Compras</Tab>
+                    <Tab>Vendas</Tab>
+                  </TabList>
 
-                    {/* <Text float="right">TOTAL faturado: <strong>{Intl.NumberFormat('pt-BR', {style: 'currency', currency: 'BRL' }).format(monthTotalValue)}</strong></Text> */}
-                    <Text float="right">
-                      TOTAL em crédito:{" "}
-                      <strong>
-                        {Intl.NumberFormat("pt-BR", {
-                          style: "currency",
-                          currency: "BRL",
-                        }).format(profileAsPartner.bought_quotas_total)}
-                      </strong>
-                    </Text>
-                  </HStack>
+                  <TabPanels>
+                    <TabPanel>
+                      <Accordion
+                        w="100%"
+                        border="2px"
+                        borderColor="gray.500"
+                        borderRadius="26"
+                        overflow="hidden"
+                        allowMultiple
+                      >
+                        <HStack
+                          spacing="8"
+                          justify="space-between"
+                          paddingX="8"
+                          paddingY="3"
+                          bg="gray.200"
+                        >
+                          <Text fontWeight="extrabold">
+                            {profileAsPartner.bought_quotas_count} Compras
+                          </Text>
 
-                  {profileAsPartner.bought_quotas &&
-                    profileAsPartner.bought_quotas.map(
-                      (quotaSale: QuotaSale) => {
-                        const creditAmount =
-                          (quotaSale.ready_quota
-                            ? quotaSale.ready_quota.credit
-                            : 0) +
-                          (quotaSale.sale_ready_quotas.length > 0
-                            ? quotaSale.sale_ready_quotas.reduce(
-                                (sumAmount, saleReadyQuota) => {
-                                  return (
-                                    sumAmount +
-                                    saleReadyQuota.ready_quota.credit
-                                  );
-                                },
-                                0
-                              )
-                            : 0);
-                        const totalCost =
-                          (quotaSale.ready_quota &&
-                          quotaSale.ready_quota.total_cost
-                            ? quotaSale.ready_quota.total_cost
-                            : 0) +
-                          (quotaSale.sale_ready_quotas.length > 0
-                            ? quotaSale.sale_ready_quotas.reduce(
-                                (sumAmount, saleReadyQuota) => {
-                                  return (
-                                    sumAmount +
-                                    (saleReadyQuota.ready_quota.total_cost
-                                      ? saleReadyQuota.ready_quota.total_cost
-                                      : 0)
-                                  );
-                                },
-                                0
-                              )
-                            : 0);
+                          {/* <Text float="right">TOTAL faturado: <strong>{Intl.NumberFormat('pt-BR', {style: 'currency', currency: 'BRL' }).format(monthTotalValue)}</strong></Text> */}
+                          <Text float="right">
+                            TOTAL em crédito:{" "}
+                            <strong>
+                              {Intl.NumberFormat("pt-BR", {
+                                style: "currency",
+                                currency: "BRL",
+                              }).format(profileAsPartner.bought_quotas_total)}
+                            </strong>
+                          </Text>
+                        </HStack>
 
-                        return (
-                          <AccordionItem
-                            key={quotaSale.id}
-                            display="flex"
-                            flexDir="column"
-                            paddingX="8"
-                            paddingTop="3"
-                            bg="white"
-                            borderTop="2px"
-                            borderTopColor="gray.500"
-                            borderBottom="0"
-                          >
-                            {({ isExpanded }) => (
-                              <>
-                                <HStack
-                                  justify="space-between"
-                                  mb="3"
-                                  opacity={quotaSale.cancelled ? 0.5 : 1}
-                                >
-                                  <AccordionButton
-                                    p="0"
-                                    height="fit-content"
-                                    w="auto"
-                                  >
-                                    <Flex
-                                      alignItems="center"
-                                      justifyContent="center"
-                                      h="24px"
-                                      w="30px"
-                                      p="0"
-                                      borderRadius="full"
-                                      border="2px"
-                                      borderColor="blue.800"
-                                    >
-                                      {!isExpanded ? (
-                                        <Plus
-                                          stroke="#2a4365"
-                                          fill="none"
-                                          width="12px"
-                                        />
-                                      ) : (
-                                        <Minus
-                                          stroke="#2a4365"
-                                          fill="none"
-                                          width="12px"
-                                        />
-                                      )}
-                                    </Flex>
-                                  </AccordionButton>
-
-                                  <Stack spacing="0">
-                                    <Text fontSize="10px" color="gray.800">
-                                      {quotaSale.sale_date
-                                        ? formatBRDate(quotaSale.sale_date)
-                                        : "--"}
-                                    </Text>
-                                    <Text
-                                      fontSize="sm"
-                                      fontWeight="bold"
-                                      color="gray.800"
-                                    >
-                                      {quotaSale.id}
-                                    </Text>
-                                  </Stack>
-
-                                  <HStack spacing="4">
-                                    <Home
-                                      stroke="#4e4b66"
-                                      fill="none"
-                                      width="22px"
-                                    />
-
-                                    <Stack spacing="0">
-                                      <Text fontSize="10px" color="gray.800">
-                                        Valor da venda
-                                      </Text>
-                                      <Text
-                                        fontSize="sm"
-                                        fontWeight="bold"
-                                        color="gray.800"
-                                      >
-                                        {Intl.NumberFormat("pt-BR", {
-                                          style: "currency",
-                                          currency: "BRL",
-                                        }).format(creditAmount)}
-                                      </Text>
-                                    </Stack>
-                                  </HStack>
-
-                                  <Stack spacing="0">
-                                    <Text
-                                      fontSize="10px"
-                                      color="gray.800"
-                                      fontWeight="bold"
-                                    >
-                                      Valor recebido
-                                    </Text>
-                                    <Text
-                                      fontSize="sm"
-                                      fontWeight="bold"
-                                      color="gray.800"
-                                    >
-                                      {Intl.NumberFormat("pt-BR", {
-                                        style: "currency",
-                                        currency: "BRL",
-                                      }).format(quotaSale.value)}{" "}
-                                      (
-                                      {(
-                                        (quotaSale.value * 100) /
-                                        creditAmount
-                                      ).toFixed(0)}
-                                      %)
-                                    </Text>
-                                  </Stack>
-
-                                  {quotaSale.ready_quota && (
-                                    <Stack spacing="0">
-                                      <Text fontSize="12px" color="gray.800">
-                                        Grupo:{" "}
-                                        <strong>
-                                          {quotaSale.ready_quota.group}
-                                        </strong>
-                                      </Text>
-                                      <Text fontSize="12px" color="gray.800">
-                                        Cota:{" "}
-                                        <strong>
-                                          {quotaSale.ready_quota.quota}
-                                        </strong>
-                                      </Text>
-                                    </Stack>
-                                  )}
-
-                                  <Stack spacing="0">
-                                    <Text
-                                      fontSize="10px"
-                                      color="gray.800"
-                                      fontWeight="bold"
-                                    >
-                                      Cotas
-                                    </Text>
-                                    <HStack>
-                                      {quotaSale.sale_ready_quotas.length > 0 &&
-                                        quotaSale.sale_ready_quotas.map(
-                                          (saleReadyQuota) => {
-                                            return (
-                                              <Text
-                                                key={`${saleReadyQuota.ready_quota.group}-${saleReadyQuota.ready_quota.quota}`}
-                                                fontSize="sm"
-                                                fontWeight="bold"
-                                                color="gray.800"
-                                              >
-                                                {
-                                                  saleReadyQuota.ready_quota
-                                                    .group
-                                                }
-                                                -
-                                                {
-                                                  saleReadyQuota.ready_quota
-                                                    .quota
-                                                }
-                                                ,
-                                              </Text>
-                                            );
-                                          }
-                                        )}
-                                    </HStack>
-                                  </Stack>
-
-                                  <HStack spacing="5">
-                                    {quotaSale.cancelled && (
-                                      <HStack>
-                                        <Flex
-                                          fontWeight="bold"
-                                          alignItems="center"
-                                          color="red.400"
-                                        >
-                                          <X
-                                            stroke="#c30052"
-                                            fill="none"
-                                            width="16px"
-                                          />
-                                          <Text ml="2">Cancelada</Text>
-                                        </Flex>
-                                      </HStack>
-                                    )}
-                                  </HStack>
-                                </HStack>
-
-                                <AccordionPanel
-                                  flexDir="column"
-                                  borderTop="2px"
-                                  borderColor="gray.500"
-                                  px="0"
-                                  py="5"
-                                  opacity={quotaSale.cancelled ? 0.5 : 1}
-                                >
-                                  <HStack
-                                    justifyContent="space-between"
-                                    marginBottom="4"
-                                  >
-                                    <Stack spacing="0">
-                                      <Text fontSize="10px" color="gray.800">
-                                        Taxa
-                                      </Text>
-                                      <Text
-                                        fontSize="sm"
-                                        fontWeight="semibold"
-                                        color="gray.800"
-                                      >
-                                        {Intl.NumberFormat("pt-BR", {
-                                          style: "currency",
-                                          currency: "BRL",
-                                        }).format(
-                                          quotaSale.tax ? quotaSale.tax : 0
-                                        )}
-                                      </Text>
-                                    </Stack>
-                                  </HStack>
-
-                                  <Stack pb="6" pt="3">
-                                    <HStack>
-                                      <Text fontWeight="700" mr="2">
-                                        Cotas compradas:{" "}
-                                      </Text>
-                                    </HStack>
-                                    {quotaSale.sale_ready_quotas.map(
-                                      (saleReadyQuota) => {
+                        {profileAsPartner.bought_quotas &&
+                          profileAsPartner.bought_quotas.map(
+                            (quotaSale: QuotaSale) => {
+                              const creditAmount =
+                                (quotaSale.ready_quota
+                                  ? quotaSale.ready_quota.credit
+                                  : 0) +
+                                (quotaSale.sale_ready_quotas.length > 0
+                                  ? quotaSale.sale_ready_quotas.reduce(
+                                      (sumAmount, saleReadyQuota) => {
                                         return (
-                                          <Stack
-                                            key={`venda-${saleReadyQuota.id}`}
-                                            spacing="2"
-                                            padding="3"
-                                            bg="gray.100"
-                                            borderRadius="16px"
+                                          sumAmount +
+                                          saleReadyQuota.ready_quota.credit
+                                        );
+                                      },
+                                      0
+                                    )
+                                  : 0);
+                              const totalCost =
+                                (quotaSale.ready_quota &&
+                                quotaSale.ready_quota.total_cost
+                                  ? quotaSale.ready_quota.total_cost
+                                  : 0) +
+                                (quotaSale.sale_ready_quotas.length > 0
+                                  ? quotaSale.sale_ready_quotas.reduce(
+                                      (sumAmount, saleReadyQuota) => {
+                                        return (
+                                          sumAmount +
+                                          (saleReadyQuota.ready_quota.total_cost
+                                            ? saleReadyQuota.ready_quota
+                                                .total_cost
+                                            : 0)
+                                        );
+                                      },
+                                      0
+                                    )
+                                  : 0);
+
+                              return (
+                                <AccordionItem
+                                  key={quotaSale.id}
+                                  display="flex"
+                                  flexDir="column"
+                                  paddingX="8"
+                                  paddingTop="3"
+                                  bg="white"
+                                  borderTop="2px"
+                                  borderTopColor="gray.500"
+                                  borderBottom="0"
+                                >
+                                  {({ isExpanded }) => (
+                                    <>
+                                      <HStack
+                                        justify="space-between"
+                                        mb="3"
+                                        opacity={quotaSale.cancelled ? 0.5 : 1}
+                                      >
+                                        <AccordionButton
+                                          p="0"
+                                          height="fit-content"
+                                          w="auto"
+                                        >
+                                          <Flex
+                                            alignItems="center"
+                                            justifyContent="center"
+                                            h="24px"
+                                            w="30px"
+                                            p="0"
+                                            borderRadius="full"
+                                            border="2px"
+                                            borderColor="blue.800"
                                           >
-                                            <HStack
-                                              justifyContent={"space-between"}
-                                              key={saleReadyQuota.id}
+                                            {!isExpanded ? (
+                                              <Plus
+                                                stroke="#2a4365"
+                                                fill="none"
+                                                width="12px"
+                                              />
+                                            ) : (
+                                              <Minus
+                                                stroke="#2a4365"
+                                                fill="none"
+                                                width="12px"
+                                              />
+                                            )}
+                                          </Flex>
+                                        </AccordionButton>
+
+                                        <Stack spacing="0">
+                                          <Text
+                                            fontSize="10px"
+                                            color="gray.800"
+                                          >
+                                            {quotaSale.sale_date
+                                              ? formatBRDate(
+                                                  quotaSale.sale_date
+                                                )
+                                              : "--"}
+                                          </Text>
+                                          <Text
+                                            fontSize="sm"
+                                            fontWeight="bold"
+                                            color="gray.800"
+                                          >
+                                            {quotaSale.id}
+                                          </Text>
+                                        </Stack>
+
+                                        <HStack spacing="4">
+                                          <Home
+                                            stroke="#4e4b66"
+                                            fill="none"
+                                            width="22px"
+                                          />
+
+                                          <Stack spacing="0">
+                                            <Text
+                                              fontSize="10px"
+                                              color="gray.800"
                                             >
-                                              <Stack spacing="0">
-                                                <Text
-                                                  fontSize="10px"
-                                                  color="gray.800"
+                                              Valor da venda
+                                            </Text>
+                                            <Text
+                                              fontSize="sm"
+                                              fontWeight="bold"
+                                              color="gray.800"
+                                            >
+                                              {Intl.NumberFormat("pt-BR", {
+                                                style: "currency",
+                                                currency: "BRL",
+                                              }).format(creditAmount)}
+                                            </Text>
+                                          </Stack>
+                                        </HStack>
+
+                                        <Stack spacing="0">
+                                          <Text
+                                            fontSize="10px"
+                                            color="gray.800"
+                                            fontWeight="bold"
+                                          >
+                                            Valor recebido
+                                          </Text>
+                                          <Text
+                                            fontSize="sm"
+                                            fontWeight="bold"
+                                            color="gray.800"
+                                          >
+                                            {Intl.NumberFormat("pt-BR", {
+                                              style: "currency",
+                                              currency: "BRL",
+                                            }).format(quotaSale.value)}{" "}
+                                            (
+                                            {(
+                                              (quotaSale.value * 100) /
+                                              creditAmount
+                                            ).toFixed(0)}
+                                            %)
+                                          </Text>
+                                        </Stack>
+
+                                        {quotaSale.ready_quota && (
+                                          <Stack spacing="0">
+                                            <Text
+                                              fontSize="12px"
+                                              color="gray.800"
+                                            >
+                                              Grupo:{" "}
+                                              <strong>
+                                                {quotaSale.ready_quota.group}
+                                              </strong>
+                                            </Text>
+                                            <Text
+                                              fontSize="12px"
+                                              color="gray.800"
+                                            >
+                                              Cota:{" "}
+                                              <strong>
+                                                {quotaSale.ready_quota.quota}
+                                              </strong>
+                                            </Text>
+                                          </Stack>
+                                        )}
+
+                                        <Stack spacing="0">
+                                          <Text
+                                            fontSize="10px"
+                                            color="gray.800"
+                                            fontWeight="bold"
+                                          >
+                                            Cotas
+                                          </Text>
+                                          <HStack>
+                                            {quotaSale.sale_ready_quotas
+                                              .length > 0 &&
+                                              quotaSale.sale_ready_quotas.map(
+                                                (saleReadyQuota) => {
+                                                  return (
+                                                    <Text
+                                                      key={`${saleReadyQuota.ready_quota.group}-${saleReadyQuota.ready_quota.quota}`}
+                                                      fontSize="sm"
+                                                      fontWeight="bold"
+                                                      color="gray.800"
+                                                    >
+                                                      {
+                                                        saleReadyQuota
+                                                          .ready_quota.group
+                                                      }
+                                                      -
+                                                      {
+                                                        saleReadyQuota
+                                                          .ready_quota.quota
+                                                      }
+                                                      ,
+                                                    </Text>
+                                                  );
+                                                }
+                                              )}
+                                          </HStack>
+                                        </Stack>
+
+                                        <HStack spacing="5">
+                                          {quotaSale.cancelled && (
+                                            <HStack>
+                                              <Flex
+                                                fontWeight="bold"
+                                                alignItems="center"
+                                                color="red.400"
+                                              >
+                                                <X
+                                                  stroke="#c30052"
+                                                  fill="none"
+                                                  width="16px"
+                                                />
+                                                <Text ml="2">Cancelada</Text>
+                                              </Flex>
+                                            </HStack>
+                                          )}
+                                        </HStack>
+                                      </HStack>
+
+                                      <AccordionPanel
+                                        flexDir="column"
+                                        borderTop="2px"
+                                        borderColor="gray.500"
+                                        px="0"
+                                        py="5"
+                                        opacity={quotaSale.cancelled ? 0.5 : 1}
+                                      >
+                                        <HStack
+                                          justifyContent="space-between"
+                                          marginBottom="4"
+                                        >
+                                          <Stack spacing="0">
+                                            <Text
+                                              fontSize="10px"
+                                              color="gray.800"
+                                            >
+                                              Taxa
+                                            </Text>
+                                            <Text
+                                              fontSize="sm"
+                                              fontWeight="semibold"
+                                              color="gray.800"
+                                            >
+                                              {Intl.NumberFormat("pt-BR", {
+                                                style: "currency",
+                                                currency: "BRL",
+                                              }).format(
+                                                quotaSale.tax
+                                                  ? quotaSale.tax
+                                                  : 0
+                                              )}
+                                            </Text>
+                                          </Stack>
+                                        </HStack>
+
+                                        <Stack pb="6" pt="3">
+                                          <HStack>
+                                            <Text fontWeight="700" mr="2">
+                                              Cotas compradas:{" "}
+                                            </Text>
+                                          </HStack>
+                                          {quotaSale.sale_ready_quotas.map(
+                                            (saleReadyQuota) => {
+                                              return (
+                                                <Stack
+                                                  key={`venda-${saleReadyQuota.id}`}
+                                                  spacing="2"
+                                                  padding="3"
+                                                  bg="gray.100"
+                                                  borderRadius="16px"
                                                 >
-                                                  Cota
-                                                </Text>
-                                                <Text
-                                                  fontSize="sm"
-                                                  fontWeight="semibold"
-                                                  color="gray.800"
-                                                >
-                                                  {
-                                                    saleReadyQuota.ready_quota
-                                                      .group
-                                                  }{" "}
-                                                  -{" "}
-                                                  {
-                                                    saleReadyQuota.ready_quota
-                                                      .quota
+                                                  <HStack
+                                                    justifyContent={
+                                                      "space-between"
+                                                    }
+                                                    key={saleReadyQuota.id}
+                                                  >
+                                                    <Stack spacing="0">
+                                                      <Text
+                                                        fontSize="10px"
+                                                        color="gray.800"
+                                                      >
+                                                        Cota
+                                                      </Text>
+                                                      <Text
+                                                        fontSize="sm"
+                                                        fontWeight="semibold"
+                                                        color="gray.800"
+                                                      >
+                                                        {
+                                                          saleReadyQuota
+                                                            .ready_quota.group
+                                                        }{" "}
+                                                        -{" "}
+                                                        {
+                                                          saleReadyQuota
+                                                            .ready_quota.quota
+                                                        }
+                                                      </Text>
+                                                    </Stack>
+
+                                                    <Stack spacing="0">
+                                                      <Text
+                                                        fontSize="10px"
+                                                        color="gray.800"
+                                                      >
+                                                        Valor
+                                                      </Text>
+                                                      <Text
+                                                        fontSize="sm"
+                                                        fontWeight="semibold"
+                                                        color="gray.800"
+                                                      >
+                                                        {Intl.NumberFormat(
+                                                          "pt-BR",
+                                                          {
+                                                            style: "currency",
+                                                            currency: "BRL",
+                                                          }
+                                                        ).format(
+                                                          saleReadyQuota.value
+                                                        )}
+                                                      </Text>
+                                                    </Stack>
+
+                                                    <Stack spacing="0">
+                                                      <Text
+                                                        fontSize="10px"
+                                                        color="gray.800"
+                                                      >
+                                                        Crédito
+                                                      </Text>
+                                                      <Text
+                                                        fontSize="sm"
+                                                        fontWeight="semibold"
+                                                        color="gray.800"
+                                                      >
+                                                        {Intl.NumberFormat(
+                                                          "pt-BR",
+                                                          {
+                                                            style: "currency",
+                                                            currency: "BRL",
+                                                          }
+                                                        ).format(
+                                                          saleReadyQuota
+                                                            .ready_quota.credit
+                                                            ? saleReadyQuota
+                                                                .ready_quota
+                                                                .credit
+                                                            : 0
+                                                        )}
+                                                      </Text>
+                                                    </Stack>
+
+                                                    <Stack spacing="0">
+                                                      <Text
+                                                        fontSize="12px"
+                                                        color="gray.800"
+                                                      >
+                                                        {saleReadyQuota
+                                                          .ready_quota.deadline
+                                                          ? `${saleReadyQuota.ready_quota.deadline}x`
+                                                          : "--"}
+                                                      </Text>
+                                                      <Text
+                                                        fontSize="sm"
+                                                        fontWeight="normal"
+                                                        color="gray.800"
+                                                      >
+                                                        {saleReadyQuota
+                                                          .ready_quota.parcel
+                                                          ? Intl.NumberFormat(
+                                                              "pt-BR",
+                                                              {
+                                                                style:
+                                                                  "currency",
+                                                                currency: "BRL",
+                                                              }
+                                                            ).format(
+                                                              saleReadyQuota
+                                                                .ready_quota
+                                                                .parcel
+                                                            )
+                                                          : ""}
+                                                      </Text>
+                                                    </Stack>
+                                                  </HStack>
+                                                </Stack>
+                                              );
+                                            }
+                                          )}
+                                        </Stack>
+
+                                        <Divider mb="3" />
+                                      </AccordionPanel>
+                                    </>
+                                  )}
+                                </AccordionItem>
+                              );
+                            }
+                          )}
+                      </Accordion>
+                    </TabPanel>
+                    <TabPanel>
+                      <Accordion
+                        w="100%"
+                        border="2px"
+                        borderColor="gray.500"
+                        borderRadius="26"
+                        overflow="hidden"
+                        allowMultiple
+                      >
+                        <HStack
+                          spacing="8"
+                          justify="space-between"
+                          paddingX="8"
+                          paddingY="3"
+                          bg="gray.200"
+                        >
+                          <Text fontWeight="extrabold">
+                            {profileAsPartner.purchases.length} Vendas
+                          </Text>
+
+                          {/* <Text float="right">TOTAL faturado: <strong>{Intl.NumberFormat('pt-BR', {style: 'currency', currency: 'BRL' }).format(monthTotalValue)}</strong></Text> */}
+                          <Text float="right">
+                            TOTAL em crédito:{" "}
+                            <strong>
+                              {Intl.NumberFormat("pt-BR", {
+                                style: "currency",
+                                currency: "BRL",
+                              }).format(profileAsPartner.sold_quotas_total)}
+                            </strong>
+                          </Text>
+                        </HStack>
+
+                        {profileAsPartner.purchases &&
+                          profileAsPartner.purchases.map(
+                            (purchase: ReadyQuotaPurchases) => {
+                              const creditAmount =
+                                purchase.quotas.length > 0
+                                  ? purchase.quotas.reduce(
+                                      (sumAmount, saleReadyQuota) => {
+                                        return (
+                                          sumAmount + saleReadyQuota.credit
+                                        );
+                                      },
+                                      0
+                                    )
+                                  : 0;
+
+                              return (
+                                <AccordionItem
+                                  key={purchase.id}
+                                  display="flex"
+                                  flexDir="column"
+                                  paddingX="8"
+                                  paddingTop="3"
+                                  bg="white"
+                                  borderTop="2px"
+                                  borderTopColor="gray.500"
+                                  borderBottom="0"
+                                >
+                                  {({ isExpanded }) => (
+                                    <>
+                                      <HStack
+                                        justify="space-between"
+                                        mb="3"
+                                        opacity={1}
+                                      >
+                                        <AccordionButton
+                                          p="0"
+                                          height="fit-content"
+                                          w="auto"
+                                        >
+                                          <Flex
+                                            alignItems="center"
+                                            justifyContent="center"
+                                            h="24px"
+                                            w="30px"
+                                            p="0"
+                                            borderRadius="full"
+                                            border="2px"
+                                            borderColor="blue.800"
+                                          >
+                                            {!isExpanded ? (
+                                              <Plus
+                                                stroke="#2a4365"
+                                                fill="none"
+                                                width="12px"
+                                              />
+                                            ) : (
+                                              <Minus
+                                                stroke="#2a4365"
+                                                fill="none"
+                                                width="12px"
+                                              />
+                                            )}
+                                          </Flex>
+                                        </AccordionButton>
+
+                                        <Stack spacing="0">
+                                          <Text
+                                            fontSize="10px"
+                                            color="gray.800"
+                                          >
+                                            {purchase.created_at
+                                              ? formatBRDate(
+                                                  purchase.created_at
+                                                )
+                                              : "--"}
+                                          </Text>
+                                          <Text
+                                            fontSize="sm"
+                                            fontWeight="bold"
+                                            color="gray.800"
+                                          >
+                                            {purchase.id}
+                                          </Text>
+                                        </Stack>
+
+                                        <HStack spacing="4">
+                                          <Home
+                                            stroke="#4e4b66"
+                                            fill="none"
+                                            width="22px"
+                                          />
+
+                                          <Stack spacing="0">
+                                            <Text
+                                              fontSize="10px"
+                                              color="gray.800"
+                                            >
+                                              Valor da compra
+                                            </Text>
+                                            <Text
+                                              fontSize="sm"
+                                              fontWeight="bold"
+                                              color="gray.800"
+                                            >
+                                              {Intl.NumberFormat("pt-BR", {
+                                                style: "currency",
+                                                currency: "BRL",
+                                              }).format(creditAmount)}
+                                            </Text>
+                                          </Stack>
+                                        </HStack>
+
+                                        {/* <Stack spacing="0">
+                                          <Text
+                                            fontSize="10px"
+                                            color="gray.800"
+                                            fontWeight="bold"
+                                          >
+                                            Valor pago
+                                          </Text>
+                                          <Text
+                                            fontSize="sm"
+                                            fontWeight="bold"
+                                            color="gray.800"
+                                          >
+                                            {Intl.NumberFormat("pt-BR", {
+                                              style: "currency",
+                                              currency: "BRL",
+                                            }).format(quotaSale.value)}{" "}
+                                            (
+                                            {(
+                                              (quotaSale.value * 100) /
+                                              creditAmount
+                                            ).toFixed(0)}
+                                            %)
+                                          </Text>
+                                        </Stack> */}
+
+                                        <Stack spacing="0">
+                                          <Text
+                                            fontSize="10px"
+                                            color="gray.800"
+                                            fontWeight="bold"
+                                          >
+                                            Cotas
+                                          </Text>
+                                          <HStack>
+                                            {purchase.quotas.length > 0 &&
+                                              purchase.quotas.map((quota) => {
+                                                return (
+                                                  <Text
+                                                    key={`${quota.group}-${quota.quota}`}
+                                                    fontSize="sm"
+                                                    fontWeight="bold"
+                                                    color="gray.800"
+                                                  >
+                                                    {quota.group}-{quota.quota},
+                                                  </Text>
+                                                );
+                                              })}
+                                          </HStack>
+                                        </Stack>
+                                      </HStack>
+
+                                      <AccordionPanel
+                                        flexDir="column"
+                                        borderTop="2px"
+                                        borderColor="gray.500"
+                                        px="0"
+                                        py="5"
+                                        opacity={1}
+                                      >
+                                        <Stack pb="6" pt="3">
+                                          <HStack>
+                                            <Text fontWeight="700" mr="2">
+                                              Cotas vendidas:{" "}
+                                            </Text>
+                                          </HStack>
+                                          {purchase.quotas.map((quotas) => {
+                                            return (
+                                              <Stack
+                                                key={`venda-${quotas.id}`}
+                                                spacing="2"
+                                                padding="3"
+                                                bg="gray.100"
+                                                borderRadius="16px"
+                                              >
+                                                <HStack
+                                                  justifyContent={
+                                                    "space-between"
                                                   }
-                                                </Text>
-                                              </Stack>
+                                                  key={quotas.id}
+                                                >
+                                                  <Stack spacing="0">
+                                                    <Text
+                                                      fontSize="10px"
+                                                      color="gray.800"
+                                                    >
+                                                      Cota
+                                                    </Text>
+                                                    <Text
+                                                      fontSize="sm"
+                                                      fontWeight="semibold"
+                                                      color="gray.800"
+                                                    >
+                                                      {quotas.group} -{" "}
+                                                      {quotas.quota}
+                                                    </Text>
+                                                  </Stack>
 
-                                              <Stack spacing="0">
-                                                <Text
-                                                  fontSize="10px"
-                                                  color="gray.800"
-                                                >
-                                                  Valor
-                                                </Text>
-                                                <Text
-                                                  fontSize="sm"
-                                                  fontWeight="semibold"
-                                                  color="gray.800"
-                                                >
-                                                  {Intl.NumberFormat("pt-BR", {
-                                                    style: "currency",
-                                                    currency: "BRL",
-                                                  }).format(
-                                                    saleReadyQuota.value
-                                                  )}
-                                                </Text>
-                                              </Stack>
-
-                                              <Stack spacing="0">
-                                                <Text
-                                                  fontSize="10px"
-                                                  color="gray.800"
-                                                >
-                                                  Crédito
-                                                </Text>
-                                                <Text
-                                                  fontSize="sm"
-                                                  fontWeight="semibold"
-                                                  color="gray.800"
-                                                >
-                                                  {Intl.NumberFormat("pt-BR", {
-                                                    style: "currency",
-                                                    currency: "BRL",
-                                                  }).format(
-                                                    saleReadyQuota.ready_quota
-                                                      .credit
-                                                      ? saleReadyQuota
-                                                          .ready_quota.credit
-                                                      : 0
-                                                  )}
-                                                </Text>
-                                              </Stack>
-
-                                              <Stack spacing="0">
-                                                <Text
-                                                  fontSize="12px"
-                                                  color="gray.800"
-                                                >
-                                                  {saleReadyQuota.ready_quota
-                                                    .deadline
-                                                    ? `${saleReadyQuota.ready_quota.deadline}x`
-                                                    : "--"}
-                                                </Text>
-                                                <Text
-                                                  fontSize="sm"
-                                                  fontWeight="normal"
-                                                  color="gray.800"
-                                                >
-                                                  {saleReadyQuota.ready_quota
-                                                    .parcel
-                                                    ? Intl.NumberFormat(
+                                                  <Stack spacing="0">
+                                                    <Text
+                                                      fontSize="10px"
+                                                      color="gray.800"
+                                                    >
+                                                      Valor
+                                                    </Text>
+                                                    <Text
+                                                      fontSize="sm"
+                                                      fontWeight="semibold"
+                                                      color="gray.800"
+                                                    >
+                                                      {Intl.NumberFormat(
                                                         "pt-BR",
                                                         {
                                                           style: "currency",
                                                           currency: "BRL",
                                                         }
                                                       ).format(
-                                                        saleReadyQuota
-                                                          .ready_quota.parcel
-                                                      )
-                                                    : ""}
-                                                </Text>
-                                              </Stack>
-                                            </HStack>
-                                          </Stack>
-                                        );
-                                      }
-                                    )}
-                                  </Stack>
+                                                        quotas.total_cost ?? 0
+                                                      )}
+                                                    </Text>
+                                                  </Stack>
 
-                                  <Divider mb="3" />
-                                </AccordionPanel>
-                              </>
-                            )}
-                          </AccordionItem>
-                        );
-                      }
-                    )}
-                </Accordion>
+                                                  <Stack spacing="0">
+                                                    <Text
+                                                      fontSize="10px"
+                                                      color="gray.800"
+                                                    >
+                                                      Crédito
+                                                    </Text>
+                                                    <Text
+                                                      fontSize="sm"
+                                                      fontWeight="semibold"
+                                                      color="gray.800"
+                                                    >
+                                                      {Intl.NumberFormat(
+                                                        "pt-BR",
+                                                        {
+                                                          style: "currency",
+                                                          currency: "BRL",
+                                                        }
+                                                      ).format(
+                                                        quotas.credit
+                                                          ? quotas.credit
+                                                          : 0
+                                                      )}
+                                                    </Text>
+                                                  </Stack>
+
+                                                  <Stack spacing="0">
+                                                    <Text
+                                                      fontSize="12px"
+                                                      color="gray.800"
+                                                    >
+                                                      {quotas.deadline
+                                                        ? `${quotas.deadline}x`
+                                                        : "--"}
+                                                    </Text>
+                                                    <Text
+                                                      fontSize="sm"
+                                                      fontWeight="normal"
+                                                      color="gray.800"
+                                                    >
+                                                      {quotas.parcel
+                                                        ? Intl.NumberFormat(
+                                                            "pt-BR",
+                                                            {
+                                                              style: "currency",
+                                                              currency: "BRL",
+                                                            }
+                                                          ).format(
+                                                            quotas.parcel
+                                                          )
+                                                        : ""}
+                                                    </Text>
+                                                  </Stack>
+                                                </HStack>
+                                              </Stack>
+                                            );
+                                          })}
+                                        </Stack>
+
+                                        <Divider mb="3" />
+                                      </AccordionPanel>
+                                    </>
+                                  )}
+                                </AccordionItem>
+                              );
+                            }
+                          )}
+                      </Accordion>
+                    </TabPanel>
+                  </TabPanels>
+                </Tabs>
               </>
             )}
 
