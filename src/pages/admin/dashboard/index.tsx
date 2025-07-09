@@ -416,7 +416,7 @@ function AdminPageContent({ quotas, broker }: ContempladasProps) {
                 <Tabs colorScheme="black">
                   <TabList>
                     <Tab>Compras</Tab>
-                    <Tab>Vendas</Tab>
+                    <Tab>Fornecidas</Tab>
                   </TabList>
 
                   <TabPanels>
@@ -572,7 +572,7 @@ function AdminPageContent({ quotas, broker }: ContempladasProps) {
                                               fontSize="10px"
                                               color="gray.800"
                                             >
-                                              Valor da venda
+                                              Valor da compra
                                             </Text>
                                             <Text
                                               fontSize="sm"
@@ -1006,7 +1006,7 @@ function AdminPageContent({ quotas, broker }: ContempladasProps) {
                                               fontSize="10px"
                                               color="gray.800"
                                             >
-                                              Valor da compra
+                                              Valor da venda
                                             </Text>
                                             <Text
                                               fontSize="sm"
