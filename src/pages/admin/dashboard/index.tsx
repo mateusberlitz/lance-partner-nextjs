@@ -329,6 +329,10 @@ function AdminPageContent({ quotas, broker }: ContempladasProps) {
                       Cotas fornecidas:{" "}
                       <b>{profileAsPartner.sold_quotas_count}</b>
                     </Text>
+                    {/* <Text fontSize="xl" w="100%">
+                      Cotas fornecidas:{" "}
+                      <b>{profileAsPartner.sold_quotas?.}</b>
+                    </Text> */}
                   </Stack>
 
                   <Stack
@@ -366,6 +370,10 @@ function AdminPageContent({ quotas, broker }: ContempladasProps) {
                       Processos adquiridos:{" "}
                       <b>{profileAsPartner.bought_quotas_count}</b>
                     </Text>
+                    {/* <Text fontSize="md" w="100%">
+                      Cotas compradas:{" "}
+                      <b>{profileAsPartner.bought_quotas_count}</b>
+                    </Text> */}
                   </Stack>
 
                   <Stack
