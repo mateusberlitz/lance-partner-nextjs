@@ -38,7 +38,7 @@ export function Menu() {
     <Flex flexDir="column" w="100%" bg="white" boxShadow="sm" mb="10" px="6">
       <HStack
         w="100%"
-        maxW="1000px"
+        maxW="1200px"
         m="0 auto"
         py="8"
         justifyContent="space-between"
@@ -47,7 +47,7 @@ export function Menu() {
           <Link href="/admin/" passHref>
             <Img
               w="100%"
-              maxW={["100px", "100px", "100px"]}
+              maxW={["100px", "100px", "130px"]}
               src={`/lance-logo-preto.png`}
               alt="Lance Consórcio - O plano para conquistar seus sonhos"
               flexWrap="wrap"
