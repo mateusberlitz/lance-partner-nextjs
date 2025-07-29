@@ -13,10 +13,12 @@ import {
   Stack,
   Text,
   useBreakpointValue,
+  useClipboard,
   useDisclosure,
 } from "@chakra-ui/react";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { useEffect } from "react";
 import { BarChart, List, LogOut, Settings } from "react-feather";
 import { useProfile } from "../../contexts/useProfile";
 import { OutlineButton } from "../Buttons/OutlineButton";
@@ -28,6 +30,11 @@ export function Menu() {
   const router = useRouter();
 
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const { onCopy, value, hasCopied } = useClipboard(
+    profile && profile.slug
+      ? `https://centraldecontempladas.com.br/${profile.slug}`
+      : ""
+  );
 
   const isWideVersion = useBreakpointValue({
     base: false,
@@ -64,7 +71,7 @@ export function Menu() {
         </HStack>
 
         {isWideVersion ? (
-          <>
+          <Stack>
             <HStack>
               <Link href="/admin/" passHref>
                 {router.asPath === "/admin" ? (
@@ -152,7 +159,25 @@ export function Menu() {
                 Sair
               </OutlineButton>
             </HStack>
-          </>
+
+            {profile && profile.slug && (
+              <HStack>
+                <Text>Página:</Text>
+                <Text
+                  fontSize={"11px"}
+                  backgroundColor={"gray.100"}
+                  color="gray.600"
+                >
+                  https://centraldecontempladas.com.br/{profile.slug}
+                </Text>
+                <Button onClick={onCopy} size="sm" padding={"4px 4px"} h="25px">
+                  <Text fontSize={"10px"}>
+                    {hasCopied ? "Copied!" : "Copy"}
+                  </Text>
+                </Button>
+              </HStack>
+            )}
+          </Stack>
         ) : (
           <>
             <Button
