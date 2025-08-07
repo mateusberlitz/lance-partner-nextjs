@@ -15,6 +15,7 @@ import {
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { X } from "react-feather";
+import { useProfile } from "../../contexts/useProfile";
 import { serverApi } from "../../services/api";
 import { formatBRDate } from "../../utils/Date/formatBRDate";
 import { getHour } from "../../utils/Date/getHour";
@@ -53,11 +54,17 @@ export function SumLog() {
   const [sums, setSums] = useState<Sum[]>([]);
   const [loadingSums, setLoadingSums] = useState<Boolean>(true);
 
+  const { profile } = useProfile();
+
   const fetchSums = () => {
-    serverApi.get("sums").then((response) => {
-      setSums(response.data);
-      setLoadingSums(false);
-    });
+    if (profile) {
+      serverApi
+        .get(`/sums`, { params: { slug: profile.slug } })
+        .then((response) => {
+          setSums(response.data);
+          setLoadingSums(false);
+        });
+    }
   };
 
   const handleToggleLogModal = () => {
